@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
     airsim_ros::Takeoff takeoff;
 
     bool takeoffflag = false;
-    takeoffflag = true;
+    //takeoffflag = true;
 
     ros::Rate rate(1.0);
 
@@ -65,7 +65,9 @@ int main(int argc, char* argv[])
     }
 
 
-    ros::Subscriber circle_poses_sub = nh.subscribe("/airsim_node/drone_1/circle_poses", 1, circle_poses_cb);
+    //ros::Subscriber circle_poses_sub = nh.subscribe("/airsim_node/drone_1/circle_poses", 1, circle_poses_cb);
+    ros::Subscriber circle_poses_sub = nh.subscribe("/airsim_node/drone_1/debug/circle_poses_gt", 1, circle_poses_cb);
+
     ros::Publisher waypoint_pub = nh.advertise<nav_msgs::Path>("/waypoint_generator/waypoints", 1);
 
 
@@ -83,10 +85,11 @@ int main(int argc, char* argv[])
             circle.position.x = circle_pose.poses[i].position.x;
             circle.position.y = circle_pose.poses[i].position.y;
             circle.position.z = circle_pose.poses[i].position.z;
+
             geometry_msgs::PoseStamped pose_stamped;
             pose_stamped.pose.position.x = circle.position.x;
-            pose_stamped.pose.position.y = circle.position.y;
-            pose_stamped.pose.position.z = circle.position.z;
+            pose_stamped.pose.position.y = -circle.position.y;
+            pose_stamped.pose.position.z = -circle.position.z;
             waypoints.poses.push_back(pose_stamped);
             waypoints.header.frame_id = std::string("world");
             waypoints.header.stamp = ros::Time::now();

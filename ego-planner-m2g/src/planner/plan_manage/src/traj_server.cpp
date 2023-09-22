@@ -393,12 +393,12 @@ void cmdCallback(const ros::TimerEvent &e)
   //airsim_control
   
   vel_cmd.twist.angular.x = roll_rolldot.second;
-  vel_cmd.twist.angular.y = pitch_pitchdot.second;
-  vel_cmd.twist.angular.z = yaw_yawdot.second;
+  vel_cmd.twist.angular.y = -pitch_pitchdot.second;
+  vel_cmd.twist.angular.z = -yaw_yawdot.second;
 
   vel_cmd.twist.linear.x = vel(0);
-  vel_cmd.twist.linear.y = vel(1);
-  vel_cmd.twist.linear.z = vel(2);
+  vel_cmd.twist.linear.y = -vel(1);
+  vel_cmd.twist.linear.z = -vel(2);
 
   vel_cmd_pub.publish(vel_cmd);
 
