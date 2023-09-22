@@ -1,5 +1,5 @@
 <launch>
-  <arg name="init_x" value="-18.0"/>
+  <arg name="init_x" value="-10.0"/>
   <arg name="init_y" value="0.0"/>
   <arg name="init_z" value="0.0"/> 
   <arg name="obj_num" value="1" />
@@ -67,10 +67,15 @@
       <!-- attenuation:   for fractal attenuation
                               typical: 0.0 ~ 0.5 -->
 
-      <param name="complexity"    type="double" value="0.05"/>
+      <!-- <param name="complexity"    type="double" value="0.05"/>
       <param name="fill"          type="double" value="0.12"/>
       <param name="fractal"       type="int"    value="1"/>
-      <param name="attenuation"   type="double" value="0.1"/>
+      <param name="attenuation"   type="double" value="0.1"/> -->
+
+      <param name="complexity"    type="double" value="0.015"/>
+      <param name="fill"          type="double" value="0.015"/>
+      <param name="fractal"       type="int"    value="1"/>
+      <param name="attenuation"   type="double" value="0.015"/>
   </node>
 
   <node pkg="so3_quadrotor_simulator" type="quadrotor_simulator_so3" name="quadrotor_simulator_so3" output="screen">

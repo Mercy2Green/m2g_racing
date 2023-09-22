@@ -1,14 +1,14 @@
 #include<plan_manage/se3_planner.h>
 #include<se3gcopter/se3gcopter_cpu.hpp>
 void MavGlobalPlanner::plan(const Eigen::MatrixXd &iniState, const Eigen::MatrixXd &finState,vector<Eigen::Vector3d>* wp_list){
-    if(!has_map||!jps_pathfinder.has_map_()) return;
+    if(!has_map||!jps_pathfinder.has_map_()) return;// This is I want
     Vector3d zeroVec(0.0,0.0,0.0);
     Vector3d start_pt;
     Vector3d end_pt;
     start_pt = iniState.col(0);
     end_pt  = finState.col(0);
     vec_Vec3f path;
-    if(!wp_list){
+    if(!wp_list){//This is i want!!!!!!
         double t1 = ros::Time::now().toSec();
         jps_pathfinder.plan(Vecf<3>(start_pt[0],start_pt[1],start_pt[2]),Vecf<3>(end_pt[0],end_pt[1],end_pt[2]),1,false);
         double t2 = ros::Time::now().toSec();

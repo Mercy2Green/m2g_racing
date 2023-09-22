@@ -23,17 +23,37 @@ int main(int argc, char **argv)
     finState.resize(3,3);
     Config config;
     ros::NodeHandle nh_priv("~");
-    waypoints_sub= nh_priv.subscribe( "waypoints", 1, rcvWaypointsCallback );
+
+
+    waypoints_sub= nh_priv.subscribe( "waypoints", 1, rcvWaypointsCallback ); //This is I want.
+
+
     _odom_sub = nh_priv.subscribe("odom", 1, odom_callback);
+
+
     config.loadParameters(ros::NodeHandle("~"));
+
+
     glbPlanner = new MavGlobalPlanner(config, nh_priv);
+
+
     std::string host_ip = "localhost";
+
+
     nh_priv.getParam("host_ip", host_ip);
+
+
     Eigen::Matrix3d enutoned;
+
+
     enutoned << 0,1,0,
                 1,0,0,
                 0,0,-1;
+
+
     msr::airlib::RpcLibClientBase airsim_client(host_ip);
+
+    
     airsim_client.confirmConnection();
 
     /*obtain the gate center pose*/

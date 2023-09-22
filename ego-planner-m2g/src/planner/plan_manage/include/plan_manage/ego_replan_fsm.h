@@ -41,7 +41,8 @@ namespace ego_planner
     {
       MANUAL_TARGET = 1,
       PRESET_TARGET = 2,
-      REFENCE_PATH = 3
+      REFENCE_PATH = 3, 
+      RACE_PATH = 4
     };
 
     /* planning utils */
@@ -52,8 +53,10 @@ namespace ego_planner
     /* parameters */
     int target_type_; // 1 mannual select, 2 hard code
     double no_replan_thresh_, replan_thresh_;
+    //double waypoints_[50][3];
     double waypoints_[50][3];
     int waypoint_num_;
+    long unsigned int waypoint_race_num_;
     double planning_horizen_, planning_horizen_time_;
     double emergency_time_;
 
@@ -75,7 +78,11 @@ namespace ego_planner
     /* ROS utils */
     ros::NodeHandle node_;
     ros::Timer exec_timer_, safety_timer_;
-    ros::Subscriber waypoint_sub_, odom_sub_;
+
+
+    ros::Subscriber waypoint_sub_, odom_sub_, waypoint_race_sub_; //Peter
+
+
     ros::Publisher replan_pub_, new_pub_, bspline_pub_, data_disp_pub_;
 
     /* helper functions */
@@ -90,6 +97,8 @@ namespace ego_planner
 
     void planGlobalTrajbyGivenWps();
     void getLocalTarget();
+
+    void race_Callback(const nav_msgs::PathConstPtr &msg);
 
     /* ROS functions */
     void execFSMCallback(const ros::TimerEvent &e);

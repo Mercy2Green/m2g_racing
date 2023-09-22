@@ -6,9 +6,16 @@
 #include "visualization_msgs/Marker.h"
 #include <ros/ros.h>
 
+#include "plan_manage/VelCmd.h"
+
 ros::Publisher pos_cmd_pub;
+ros::Publisher vel_cmd_pub;
 
 quadrotor_msgs::PositionCommand cmd;
+
+airsim_ros::VelCmd vel_cmd;
+
+
 double pos_gain[3] = {0, 0, 0};
 double vel_gain[3] = {0, 0, 0};
 
@@ -23,6 +30,9 @@ int traj_id_;
 // yaw control
 double last_yaw_, last_yaw_dot_;
 double time_forward_;
+
+double last_roll_, last_roll_dot_;
+double last_pitch_, last_pitch_dot_;
 
 void bsplineCallback(ego_planner::BsplineConstPtr msg)
 {
@@ -41,6 +51,13 @@ void bsplineCallback(ego_planner::BsplineConstPtr msg)
     pos_pts(0, i) = msg->pos_pts[i].x;
     pos_pts(1, i) = msg->pos_pts[i].y;
     pos_pts(2, i) = msg->pos_pts[i].z;
+
+    //    0  1  2  3  ... msg->post_pts.size
+    //0:  x1 x2 x3 x4 ... x_size
+    //1:  y1 y2 y3 y4 ... y_size
+    //2:  z1 z2 z3 z4 ... z_size
+
+
   }
 
   UniformBspline pos_traj(pos_pts, msg->order, 0.1);
@@ -62,6 +79,11 @@ void bsplineCallback(ego_planner::BsplineConstPtr msg)
   traj_.push_back(pos_traj);
   traj_.push_back(traj_[0].getDerivative());
   traj_.push_back(traj_[1].getDerivative());
+  //recursive
+
+  //vector[0]: pos_traj is a b-spline :position
+  //vector[1]: is a b-spline : vel
+  //vector[2]: is a b-spline : acc
 
   traj_duration_ = traj_[0].getTimeSum();
 
@@ -78,8 +100,13 @@ std::pair<double, double> calculate_yaw(double t_cur, Eigen::Vector3d &pos, ros:
   double yawdot = 0;
 
   Eigen::Vector3d dir = t_cur + time_forward_ <= traj_duration_ ? traj_[0].evaluateDeBoorT(t_cur + time_forward_) - pos : traj_[0].evaluateDeBoorT(traj_duration_) - pos;
-  double yaw_temp = dir.norm() > 0.1 ? atan2(dir(1), dir(0)) : last_yaw_;
+  //dir is Differential. Yes, it is the math Differential
+
+  double yaw_temp = dir.norm() > 0.1 ? atan2(dir(1), dir(0)) : last_yaw_; //y and x angle is dir(1), dir(0)
+  //This is I want!!!!!
+
   double max_yaw_change = YAW_DOT_MAX_PER_SEC * (time_now - time_last).toSec();
+
   if (yaw_temp - last_yaw_ > PI)
   {
     if (yaw_temp - last_yaw_ - 2 * PI < -max_yaw_change)
@@ -160,6 +187,131 @@ std::pair<double, double> calculate_yaw(double t_cur, Eigen::Vector3d &pos, ros:
   return yaw_yawdot;
 }
 
+std::pair<double, double> calculate_rotation(double t_cur, Eigen::Vector3d &pos, ros::Time &time_now, ros::Time &time_last, double &last_rot_, double &last_rot_dot_, int rotation = 1)
+{
+  // rotation = 1 -> yaw
+  // rotation = 2 -> roll
+  // rotation = 3 -> pitch
+
+  constexpr double PI = 3.1415926;
+  //constexpr double YAW_DOT_MAX_PER_SEC = PI;
+  // std::pair<double, double> yaw_yawdot(0, 0);
+  // double yaw = 0;
+  // double yawdot = 0;
+  // double yaw_temp = 0;
+
+  constexpr double ROT_DOT_MAX_PER_SEC = PI;
+  std::pair<double, double> rot_rotdot(0,0);
+  double rot = 0;
+  double rotdot = 0;
+  double rot_temp = 0;
+
+
+  Eigen::Vector3d dir = t_cur + time_forward_ <= traj_duration_ ? traj_[0].evaluateDeBoorT(t_cur + time_forward_) - pos : traj_[0].evaluateDeBoorT(traj_duration_) - pos;
+  //dir is Differential. Yes, it is the math Differential
+
+  //dir(i) -> 0:x, 1:y, 2:z
+  //
+  if (rotation == 1)
+    {
+      rot_temp = dir.norm() > 0.1 ? atan2(dir(1), dir(0)) : last_rot_; //y and x angle is dir(1), dir(0)
+    }
+  else if (rotation == 2)
+    {
+      rot_temp = dir.norm() > 0.1 ? atan2(dir(2), dir(1)) : last_rot_;
+    }
+  else if (rotation == 3)
+    {
+      rot_temp = dir.norm() > 0.1 ? atan2(dir(0), dir(2)) : last_rot_;
+    }
+  //This is I want!!!!!
+
+  //double max_yaw_change = ROT_DOT_MAX_PER_SEC * (time_now - time_last).toSec();
+  double max_rot_change = ROT_DOT_MAX_PER_SEC * (time_now - time_last).toSec();
+
+  if (rot_temp - last_rot_ > PI)
+  {
+    if (rot_temp - last_rot_ - 2 * PI < -max_rot_change)
+    {
+      rot = last_rot_ - max_rot_change;
+      if (rot < -PI)
+        rot += 2 * PI;
+
+      rotdot = -ROT_DOT_MAX_PER_SEC;
+    }
+    else
+    {
+      rot = rot_temp;
+      if (rot - last_rot_ > PI)
+        rotdot = -ROT_DOT_MAX_PER_SEC;
+      else
+        rotdot = (rot_temp - last_rot_) / (time_now - time_last).toSec();
+    }
+  }
+  else if (rot_temp - last_rot_ < -PI)
+  {
+    if (rot_temp - last_rot_ + 2 * PI > max_rot_change)
+    {
+      rot = last_rot_ + max_rot_change;
+      if (rot > PI)
+        rot -= 2 * PI;
+
+      rotdot = ROT_DOT_MAX_PER_SEC;
+    }
+    else
+    {
+      rot = rot_temp;
+      if (rot - last_rot_ < -PI)
+        rotdot = ROT_DOT_MAX_PER_SEC;
+      else
+        rotdot = (rot_temp - last_rot_) / (time_now - time_last).toSec();
+    }
+  }
+  else
+  {
+    if (rot_temp - last_rot_ < -max_rot_change)
+    {
+      rot = last_rot_ - max_rot_change;
+      if (rot < -PI)
+        rot += 2 * PI;
+
+      rotdot = -ROT_DOT_MAX_PER_SEC;
+    }
+    else if (rot_temp - last_rot_ > max_rot_change)
+    {
+      rot = last_rot_ + max_rot_change;
+      if (rot > PI)
+        rot -= 2 * PI;
+
+      rotdot = ROT_DOT_MAX_PER_SEC;
+    }
+    else
+    {
+      rot = rot_temp;
+      if (rot - last_rot_ > PI)
+        rotdot = -ROT_DOT_MAX_PER_SEC;
+      else if (rot - last_rot_ < -PI)
+        rotdot = ROT_DOT_MAX_PER_SEC;
+      else
+        rotdot = (rot_temp - last_rot_) / (time_now - time_last).toSec();
+    }
+  }
+
+  if (fabs(rot - last_rot_) <= max_rot_change)
+    rot = 0.5 * last_rot_ + 0.5 * rot; // nieve LPF
+  rotdot = 0.5 * last_rot_dot_ + 0.5 * rotdot;
+  last_rot_ = rot;
+  last_rot_dot_ = rotdot;
+
+  rot_rotdot.first = rot;
+  rot_rotdot.second = rotdot;
+
+  return rot_rotdot;
+}
+
+
+
+
 void cmdCallback(const ros::TimerEvent &e)
 {
   /* no publishing before receive traj_ */
@@ -171,17 +323,23 @@ void cmdCallback(const ros::TimerEvent &e)
 
   Eigen::Vector3d pos(Eigen::Vector3d::Zero()), vel(Eigen::Vector3d::Zero()), acc(Eigen::Vector3d::Zero()), pos_f;
   std::pair<double, double> yaw_yawdot(0, 0);
+  std::pair<double, double> roll_rolldot(0, 0);//
+  std::pair<double, double> pitch_pitchdot(0, 0);//
 
   static ros::Time time_last = ros::Time::now();
   if (t_cur < traj_duration_ && t_cur >= 0.0)
   {
-    pos = traj_[0].evaluateDeBoorT(t_cur);
+    //B-spline Derivative
+
+    pos = traj_[0].evaluateDeBoorT(t_cur); // function:traj_[0].evaluateDeBoorT(t_cur) is a function, which return a vector
     vel = traj_[1].evaluateDeBoorT(t_cur);
     acc = traj_[2].evaluateDeBoorT(t_cur);
 
-    /*** calculate yaw ***/
+    /*** calculate rotation ***/
     yaw_yawdot = calculate_yaw(t_cur, pos, time_now, time_last);
-    /*** calculate yaw ***/
+    roll_rolldot = calculate_rotation(t_cur, pos, time_now, time_last, last_roll_, last_roll_dot_,2);
+    pitch_pitchdot = calculate_rotation(t_cur, pos, time_now, time_last, last_pitch_, last_pitch_dot_, 3);
+    /*** calculate rotation ***/
 
     double tf = min(traj_duration_, t_cur + 2.0);
     pos_f = traj_[0].evaluateDeBoorT(tf);
@@ -195,6 +353,9 @@ void cmdCallback(const ros::TimerEvent &e)
 
     yaw_yawdot.first = last_yaw_;
     yaw_yawdot.second = 0;
+
+    roll_rolldot.first = last_roll_;
+    roll_rolldot.second = 0;
 
     pos_f = pos;
   }
@@ -227,6 +388,19 @@ void cmdCallback(const ros::TimerEvent &e)
   last_yaw_ = cmd.yaw;
 
   pos_cmd_pub.publish(cmd);
+
+  //airsim_control
+  
+  vel_cmd.twist.angular.x = roll_rolldot.second;
+  vel_cmd.twist.angular.y = pitch_pitchdot.second;
+  vel_cmd.twist.angular.z = yaw_yawdot.second;
+
+  vel_cmd.twist.linear.x = vel(0);
+  vel_cmd.twist.linear.y = vel(1);
+  vel_cmd.twist.linear.z = vel(2);
+
+  vel_cmd_pub.publish(vel_cmd);
+
 }
 
 int main(int argc, char **argv)
@@ -239,6 +413,8 @@ int main(int argc, char **argv)
 
   pos_cmd_pub = node.advertise<quadrotor_msgs::PositionCommand>("/position_cmd", 50);
 
+  vel_cmd_pub = node.advertise<airsim_ros::VelCmd>("/vel_cmd_body_frame", 50);
+
   ros::Timer cmd_timer = node.createTimer(ros::Duration(0.01), cmdCallback);
 
   /* control parameter */
@@ -250,9 +426,15 @@ int main(int argc, char **argv)
   cmd.kv[1] = vel_gain[1];
   cmd.kv[2] = vel_gain[2];
 
-  nh.param("traj_server/time_forward", time_forward_, -1.0);
+  nh.param("traj_server/time_forward", time_forward_, -1.0); //origin is 1
   last_yaw_ = 0.0;
   last_yaw_dot_ = 0.0;
+
+  last_roll_ = 0.0;
+  last_roll_dot_ = 0.0;
+
+  last_pitch_ = 0.0;
+  last_pitch_dot_ = 0.0;
 
   ros::Duration(1.0).sleep();
 

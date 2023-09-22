@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/ros/noetic/include/**",
+                "/home/m2g/uav/m2g_racing/irmb/pos_ctrl/src/**",
+                "/home/m2g/uav/m2g_racing/irmb/pos_ctrl/src/pos_ctrl/include/**",
+                "/home/m2g/tools/AirSim/ros/devel/include/airsim_ros_pkgs/**",
+                "/usr/include/eigen3",
+                "${workspaceFolder}/fast_racing_m2g/devel/include",
+                "/usr/include/pcl-1.10",
+                "/usr/include/opencv4",
+                "${workspaceFolder}/m2g_racing/devel/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "linux-clang-x64"
+        }
+    ],
+    "version": 4
+}

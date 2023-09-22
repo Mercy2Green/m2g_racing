@@ -19,7 +19,7 @@ namespace ego_planner
     nh.param("fsm/planning_horizen_time", planning_horizen_time_, -1.0);
     nh.param("fsm/emergency_time_", emergency_time_, 1.0);
 
-    nh.param("fsm/waypoint_num", waypoint_num_, -1);
+    nh.param("fsm/waypoint_num", waypoint_num_, -1); //This is I want.
     for (int i = 0; i < waypoint_num_; i++)
     {
       nh.param("fsm/waypoint" + to_string(i) + "_x", waypoints_[i][0], -1.0);
@@ -43,6 +43,7 @@ namespace ego_planner
 
     if (target_type_ == TARGET_TYPE::MANUAL_TARGET)
       waypoint_sub_ = nh.subscribe("/waypoint_generator/waypoints", 1, &EGOReplanFSM::waypointCallback, this);
+      
     else if (target_type_ == TARGET_TYPE::PRESET_TARGET)
     {
       ros::Duration(1.0).sleep();
@@ -50,28 +51,107 @@ namespace ego_planner
         ros::spinOnce();
       planGlobalTrajbyGivenWps();
     }
+
+    else if (target_type_ == TARGET_TYPE::RACE_PATH)
+    {
+      waypoint_race_sub_ = nh.subscribe("/waypoint_generator/waypoints", 1, &EGOReplanFSM::race_Callback, this);
+    }
+
     else
       cout << "Wrong target_type_ value! target_type_=" << target_type_ << endl;
   }
 
-  void EGOReplanFSM::planGlobalTrajbyGivenWps()
+
+
+
+
+  // void EGOReplanFSM::race_Callback(const nav_msgs::PathConstPtr &msg) //V2
+  // {
+  //   int waypoint_race_num_ = -1;
+  //   waypoint_race_num_ = msg->poses.size();
+  //   bool success = false;
+
+  //   cout << "waypoint_num: " << waypoint_race_num_ << endl;
+
+  //   for (int i = 0; i < waypoint_race_num_; i++)
+  //   {
+  //     cout << "Triggered!" << endl;
+  //     trigger_ = true;
+  //     init_pt_ = odom_pos_;
+  //     success = false;
+
+  //     cout << "Going to waypoint: " << i << endl;
+  //     end_pt_ << msg->poses[i].pose.position.x, msg->poses[i].pose.position.y, msg->poses[i].pose.position.z;
+
+  //     success = planner_manager_->planGlobalTraj(odom_pos_, odom_vel_, Eigen::Vector3d::Zero(), end_pt_, Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+
+  //     visualization_->displayGoalPoint(end_pt_, Eigen::Vector4d(0, 0.5, 0.5, 1), 0.3, 0);
+
+  //     if (success)
+  //     {
+
+  //       /*** display ***/
+  //       constexpr double step_size_t = 0.1;
+  //       int i_end = floor(planner_manager_->global_data_.global_duration_ / step_size_t);
+  //       vector<Eigen::Vector3d> gloabl_traj(i_end);
+  //       for (int i = 0; i < i_end; i++)
+  //       {
+  //         gloabl_traj[i] = planner_manager_->global_data_.global_traj_.evaluate(i * step_size_t);
+  //       }
+
+  //       end_vel_.setZero();
+  //       have_target_ = true;
+  //       have_new_target_ = true;
+
+  //       /*** FSM ***/
+  //       if (exec_state_ == WAIT_TARGET)
+  //         changeFSMExecState(GEN_NEW_TRAJ, "TRIG");
+  //       else if (exec_state_ == EXEC_TRAJ)
+  //         changeFSMExecState(REPLAN_TRAJ, "TRIG");
+
+  //       // visualization_->displayGoalPoint(end_pt_, Eigen::Vector4d(1, 0, 0, 1), 0.3, 0);
+  //       visualization_->displayGlobalPathList(gloabl_traj, 0.1, 0);
+
+  //       success = false;// My add
+  //     }
+  //     else
+  //     {
+  //       ROS_ERROR("Unable to generate global trajectory!");
+  //     }
+  //   }
+  // }
+
+  void EGOReplanFSM::race_Callback(const nav_msgs::PathConstPtr &msg) //v1.0
   {
-    std::vector<Eigen::Vector3d> wps(waypoint_num_);
-    for (int i = 0; i < waypoint_num_; i++)
+
+    if(waypoint_race_num_ == msg->poses.size())
+      return;
+
+    waypoint_race_num_ = msg->poses.size();
+    bool success = false;
+
+    cout << "waypoint_num: " << waypoint_race_num_ << endl;
+
+    std::vector<Eigen::Vector3d> wps(waypoint_race_num_); //Transform waypoints_ to wps. waypoints_ is a 2-d array, while wps is a vector of Eigen::Vector3d.
+    
+    for (int i = 0; i < waypoint_race_num_; i++)
     {
-      wps[i](0) = waypoints_[i][0];
-      wps[i](1) = waypoints_[i][1];
-      wps[i](2) = waypoints_[i][2];
+
+      wps[i](0) = msg->poses[i].pose.position.x / 4;
+      wps[i](1) = msg->poses[i].pose.position.y / 4;
+      wps[i](2) = (msg->poses[i].pose.position.z / 4) +12;
 
       end_pt_ = wps.back();
     }
-    bool success = planner_manager_->planGlobalTrajWaypoints(odom_pos_, Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero(), wps, Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+    success = planner_manager_->planGlobalTrajWaypoints(odom_pos_, Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero(), wps, Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
 
-    for (size_t i = 0; i < (size_t)waypoint_num_; i++)
+    for (size_t i = 0; i < (size_t)waypoint_race_num_; i++)
     {
       visualization_->displayGoalPoint(wps[i], Eigen::Vector4d(0, 0.5, 0.5, 1), 0.3, i);
       ros::Duration(0.001).sleep();
     }
+
+    visualization_->displayGoalPoint(end_pt_, Eigen::Vector4d(0, 0.5, 0.5, 1), 0.3, 0);
 
     if (success)
     {
@@ -106,7 +186,60 @@ namespace ego_planner
     }
   }
 
-  void EGOReplanFSM::waypointCallback(const nav_msgs::PathConstPtr &msg)
+  void EGOReplanFSM::planGlobalTrajbyGivenWps() //This is a funciton that fly based on a pre-defined path.
+  {
+    std::vector<Eigen::Vector3d> wps(waypoint_num_); //Transform waypoints_ to wps. waypoints_ is a 2-d array, while wps is a vector of Eigen::Vector3d.
+    for (int i = 0; i < waypoint_num_; i++)
+    {
+      wps[i](0) = waypoints_[i][0];
+      wps[i](1) = waypoints_[i][1];
+      wps[i](2) = waypoints_[i][2];
+
+      end_pt_ = wps.back();
+    }
+    bool success = planner_manager_->planGlobalTrajWaypoints(odom_pos_, Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero(), wps, Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+
+    for (size_t i = 0; i < (size_t)waypoint_num_; i++)
+    {
+      visualization_->displayGoalPoint(wps[i], Eigen::Vector4d(0, 0.5, 0.5, 1), 0.3, i);
+      ros::Duration(0.001).sleep();
+    }
+    if (success)
+    {
+
+      /*** display ***/
+      constexpr double step_size_t = 0.1;
+      int i_end = floor(planner_manager_->global_data_.global_duration_ / step_size_t);
+      std::vector<Eigen::Vector3d> gloabl_traj(i_end);
+      for (int i = 0; i < i_end; i++)
+      {
+        gloabl_traj[i] = planner_manager_->global_data_.global_traj_.evaluate(i * step_size_t);
+      }
+
+      end_vel_.setZero();
+      have_target_ = true;
+      have_new_target_ = true;
+
+      /*** FSM ***/
+      // if (exec_state_ == WAIT_TARGET)
+      changeFSMExecState(GEN_NEW_TRAJ, "TRIG");
+      // else if (exec_state_ == EXEC_TRAJ)
+      //   changeFSMExecState(REPLAN_TRAJ, "TRIG");
+
+      // visualization_->displayGoalPoint(end_pt_, Eigen::Vector4d(1, 0, 0, 1), 0.3, 0);
+      ros::Duration(0.001).sleep();
+      visualization_->displayGlobalPathList(gloabl_traj, 0.1, 0);
+      ros::Duration(0.001).sleep();
+    }
+    else
+    {
+      ROS_ERROR("Unable to generate global trajectory!");
+    }
+  }
+
+  void EGOReplanFSM::waypointCallback(const nav_msgs::PathConstPtr &msg) //This is a function that drone fly based on your click, which is the waypoint.
+  //so i
+
   {
     if (msg->poses[0].pose.position.z < -0.1)
       return;

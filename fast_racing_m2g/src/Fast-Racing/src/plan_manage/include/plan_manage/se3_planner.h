@@ -138,7 +138,7 @@ public:
 
   vec_Vec3f *obs_pointer;
   std::shared_ptr<VoxelMapUtil> map_util;
-  JPSPlanner3D jps_pathfinder;
+  JPSPlanner3D jps_pathfinder; //This is I want
   Visualization visualization;
   ros::Time lastIniStamp;
   quadrotor_msgs::PolynomialTrajectory traj2msg(Trajectory traj);

@@ -116,9 +116,9 @@ class JPSPlanner
 };
 
 ///Planner for 2D OccMap
-typedef JPSPlanner<2> JPSPlanner2D;
+typedef JPSPlanner<2> JPSPlanner2D; //Dim = 2
 
 ///Planner for 3D VoxelMap
-typedef JPSPlanner<3> JPSPlanner3D;
+typedef JPSPlanner<3> JPSPlanner3D; //Dim = 3
 
 #endif
