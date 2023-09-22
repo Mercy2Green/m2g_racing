@@ -216,11 +216,11 @@ std::pair<double, double> calculate_rotation(double t_cur, Eigen::Vector3d &pos,
     {
       rot_temp = dir.norm() > 0.1 ? atan2(dir(1), dir(0)) : last_rot_; //y and x angle is dir(1), dir(0)
     }
-  else if (rotation == 2)
+  else if (rotation == 2)//roll
     {
       rot_temp = dir.norm() > 0.1 ? atan2(dir(2), dir(1)) : last_rot_;
     }
-  else if (rotation == 3)
+  else if (rotation == 3)//pitch
     {
       rot_temp = dir.norm() > 0.1 ? atan2(dir(0), dir(2)) : last_rot_;
     }
@@ -336,7 +336,8 @@ void cmdCallback(const ros::TimerEvent &e)
     acc = traj_[2].evaluateDeBoorT(t_cur);
 
     /*** calculate rotation ***/
-    yaw_yawdot = calculate_yaw(t_cur, pos, time_now, time_last);
+    //yaw_yawdot = calculate_yaw(t_cur, pos, time_now, time_last);
+    yaw_yawdot = calculate_rotation(t_cur, pos, time_now, time_last, last_yaw_, last_yaw_dot_, 1);
     roll_rolldot = calculate_rotation(t_cur, pos, time_now, time_last, last_roll_, last_roll_dot_,2);
     pitch_pitchdot = calculate_rotation(t_cur, pos, time_now, time_last, last_pitch_, last_pitch_dot_, 3);
     /*** calculate rotation ***/

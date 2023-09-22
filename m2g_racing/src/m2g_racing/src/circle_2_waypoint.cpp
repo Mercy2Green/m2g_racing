@@ -21,6 +21,8 @@
 #include <boost/format.hpp>
 #include <eigen3/Eigen/Dense>
 
+#include <airsim_ros/Takeoff.h>
+
 using namespace std;
 
 airsim_ros::CirclePoses circle_pose;
@@ -47,14 +49,28 @@ int main(int argc, char* argv[])
     ros::init(argc, argv, "circle_2_waypoint");
     ros::NodeHandle nh;
     geometry_msgs::Pose waypoint_pose;
+    airsim_ros::Takeoff takeoff;
+
+    bool takeoffflag = false;
+    takeoffflag = true;
+
+    ros::Rate rate(1.0);
+
+    ros::ServiceClient takeoff_client = nh.serviceClient<airsim_ros::Takeoff>("/airsim_node/drone_1/takeoff");
+    if(!takeoffflag)
+    {
+        takeoff_client.call(takeoff);
+        takeoffflag = true;
+        ros::spinOnce();
+    }
+
 
     ros::Subscriber circle_poses_sub = nh.subscribe("/airsim_node/drone_1/circle_poses", 1, circle_poses_cb);
     ros::Publisher waypoint_pub = nh.advertise<nav_msgs::Path>("/waypoint_generator/waypoints", 1);
 
 
-    ros::Rate rate(1.0);
-
     while(ros::ok() && circle_num==0){
+
         ros::spinOnce();
         rate.sleep();
     }
@@ -81,6 +97,7 @@ int main(int argc, char* argv[])
         ros::spinOnce();
         rate.sleep();
     }
+
     }
 }
 

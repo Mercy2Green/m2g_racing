@@ -137,9 +137,9 @@ namespace ego_planner
     for (int i = 0; i < waypoint_race_num_; i++)
     {
 
-      wps[i](0) = msg->poses[i].pose.position.x / 4;
-      wps[i](1) = msg->poses[i].pose.position.y / 4;
-      wps[i](2) = (msg->poses[i].pose.position.z / 4) +12;
+      wps[i](0) = msg->poses[i].pose.position.x;
+      wps[i](1) = msg->poses[i].pose.position.y;
+      wps[i](2) = msg->poses[i].pose.position.z;
 
       end_pt_ = wps.back();
     }
