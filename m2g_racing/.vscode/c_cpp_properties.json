@@ -1,0 +1,35 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/m2g/uav/m2g_racing/m2g_racing/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/airsim_ros/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/planner/bspline_opt/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/planner/plan_manage/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/m2g_racing/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/uav_simulator/mockamap/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/uav_simulator/Utils/multi_map_server/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/planner/path_searching/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/planner/plan_env/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/uav_simulator/Utils/pose_utils/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/uav_simulator/Utils/quadrotor_msgs/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/uav_simulator/so3_control/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/uav_simulator/so3_quadrotor_simulator/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/planner/traj_utils/include/**",
+        "/home/m2g/uav/m2g_racing/m2g_racing/src/uav_simulator/Utils/uav_utils/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
