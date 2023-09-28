@@ -14,6 +14,9 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   nav_msgs
+  sensor_msgs
+  cv_bridge
+  image_transport
 )
 
 ## System dependencies are found with CMake's conventions
@@ -136,8 +139,8 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(circle_2_waypoint src/circle_2_waypoint.cpp)
-
+add_executable(circle_2_waypoint src/circle_2_waypoint/circle_2_waypoint.cpp)
+add_executable(tune_image_brightness src/tune_image_brightness/tune_image_brightness.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -151,6 +154,10 @@ add_executable(circle_2_waypoint src/circle_2_waypoint.cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(circle_2_waypoint
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(tune_image_brightness
   ${catkin_LIBRARIES}
 )
 
