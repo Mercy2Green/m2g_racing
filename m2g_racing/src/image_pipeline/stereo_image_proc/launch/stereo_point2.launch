@@ -1,0 +1,25 @@
+<!-- Launch in the camera namespace containing "image_raw" and "camera_info" -->
+<launch>
+  <arg name="manager" value="stereo"/> <!-- Must be globally qualified -->
+  <arg name="respawn" default="true" />
+  <arg name="left" default="left" />
+  <arg name="right" default="right" />
+  <arg name="downsampling_factor" value="1" />
+  <arg name="approximate_sync" default="true" />
+
+  <arg     if="$(arg respawn)" name="bond" value="" />
+  <arg unless="$(arg respawn)" name="bond" value="--no-bond" />
+
+  <!-- PointCloud2 -->
+  <node pkg="stereo_image_proc" type="stereo_image_proc" name="point_cloud2"
+        args="load stereo_image_proc/point_cloud2 $(arg manager) $(arg bond)"
+	respawn="$(arg respawn)" output= "screen">
+    <param name="approximate_sync" value="$(arg approximate_sync)" />
+
+  <remap from="left/camera_info" to="/airsim_node/drone_1/front_left/Scene/camera_info" />
+  <remap from= "left/image_raw"  to="/airsim_node/drone_1/front_left/Scene"/> 
+  <remap from= "right/camera_info" to= "/airsim_node/drone_1/front_right/Scene/camera_info"/>
+  <remap from= "right/image_raw" to= "/airsim_node/drone_1/front_right/Scene"/>
+
+  </node>
+</launch>

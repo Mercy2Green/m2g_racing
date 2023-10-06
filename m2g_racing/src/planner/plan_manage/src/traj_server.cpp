@@ -7,13 +7,16 @@
 #include <ros/ros.h>
 
 #include "plan_manage/VelCmd.h"
+#include "plan_manage/PoseCmd.h"
 
 ros::Publisher pos_cmd_pub;
 ros::Publisher vel_cmd_pub;
+ros::Publisher pose_cmd_pub;
 
 quadrotor_msgs::PositionCommand cmd;
 
 airsim_ros::VelCmd vel_cmd;
+airsim_ros::PoseCmd pose_cmd;
 
 
 double pos_gain[3] = {0, 0, 0};
@@ -388,19 +391,28 @@ void cmdCallback(const ros::TimerEvent &e)
 
   last_yaw_ = cmd.yaw;
 
-  pos_cmd_pub.publish(cmd);
+  //pos_cmd_pub.publish(cmd);
 
   //airsim_control
-  
+
+  //vel_cmd
   vel_cmd.twist.angular.x = roll_rolldot.second;
-  vel_cmd.twist.angular.y = -pitch_pitchdot.second;
+  vel_cmd.twist.angular.y = pitch_pitchdot.second;
   vel_cmd.twist.angular.z = -yaw_yawdot.second;
 
   vel_cmd.twist.linear.x = vel(0);
-  vel_cmd.twist.linear.y = -vel(1);
+  vel_cmd.twist.linear.y = vel(1);
   vel_cmd.twist.linear.z = -vel(2);
 
   vel_cmd_pub.publish(vel_cmd);
+
+  //pose_cmd
+
+  pose_cmd.yaw = - yaw_yawdot.first;
+  pose_cmd.roll = roll_rolldot.first;
+  pose_cmd.pitch = pitch_pitchdot.first;
+
+  pose_cmd_pub.publish(pose_cmd);  
 
 }
 
@@ -412,9 +424,11 @@ int main(int argc, char **argv)
 
   ros::Subscriber bspline_sub = node.subscribe("planning/bspline", 10, bsplineCallback);
 
-  pos_cmd_pub = node.advertise<quadrotor_msgs::PositionCommand>("/position_cmd", 50);
+  //pos_cmd_pub = node.advertise<quadrotor_msgs::PositionCommand>("/position_cmd", 50);
 
   vel_cmd_pub = node.advertise<airsim_ros::VelCmd>("/vel_cmd_body_frame", 50);
+
+  pose_cmd_pub = node.advertise<airsim_ros::PoseCmd>("/pose_cmd_body_frame", 50);
 
   ros::Timer cmd_timer = node.createTimer(ros::Duration(0.01), cmdCallback);
 

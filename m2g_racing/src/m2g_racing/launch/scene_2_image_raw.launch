@@ -1,0 +1,21 @@
+
+<launch>
+
+
+    <node pkg="m2g_racing" type="scene_2_image_raw" name="scene_2_image_raw_left" output="screen">
+        <remap from= "Scene/camera_info" to="/airsim_node/drone_1/front_left/Scene/camera_info" />
+        <remap from= "Scene" to="/airsim_node/drone_1/front_left/Scene" /> 
+        <remap from="/camera_info" to= "stereo/left/camera_info"/>
+        <remap from="/image_raw" to= "stereo/left/image_raw"/>
+    </node>
+
+    <node pkg="m2g_racing" type="scene_2_image_raw" name="scene_2_image_raw_right" output="screen">
+        <remap from="Scene/camera_info" to= "/airsim_node/drone_1/front_right/Scene/camera_info"/>
+        <remap from="Scene" to= "/airsim_node/drone_1/front_right/Scene"/>
+        <remap from="/camera_info" to= "stereo/right/camera_info"/>
+        <remap from="/image_raw" to= "stereo/right/image_raw"/>
+    </node>
+
+
+
+</launch>

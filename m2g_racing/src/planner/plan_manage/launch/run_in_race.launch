@@ -1,11 +1,11 @@
 <launch>
   <!-- size of map, change the size inflate x, y, z according to your application -->
-  <arg name="map_size_x" value="100.0"/>
-  <arg name="map_size_y" value="100.0"/>
-  <arg name="map_size_z" value="50"/>
+  <arg name="map_size_x" value="200.0"/>
+  <arg name="map_size_y" value="200.0"/>
+  <arg name="map_size_z" value="100"/>
 
   <!-- topic of your odometry such as VIO or LIO -->
-  <arg name="odom_topic" value="/visual_slam/odom" />
+  <arg name="odom_topic" value="/vins_fusion/imu_propagate" />
 
   <!-- main algorithm params -->
   <include file="$(find ego_planner)/launch/advanced_param.xml">
@@ -23,7 +23,7 @@
 
     <!-- topic of point cloud measurement, such as from LIDAR  -->
     <!-- don't set camera pose and depth, if you already set this one! -->
-    <arg name="cloud_topic" value="/pcl_render_node/cloud"/>
+    <arg name="cloud_topic" value="/vins_fusion/point_cloud"/>
 
     <!-- intrinsic params of the depth camera -->
     <arg name="cx" value="321.04638671875"/>
@@ -72,19 +72,19 @@
   <node pkg="ego_planner" name="traj_server" type="traj_server" output="screen">
     <remap from="/position_cmd" to="planning/pos_cmd"/>
     <remap from="/vel_cmd_body_frame" to="airsim_node/drone_1/vel_cmd_body_frame"/>
+    <remap from="/pose_cmd_body_frame" to= "airsim_node/drone_1/pose_cmd_body_frame"/>
 
     <remap from="/odom_world" to="$(arg odom_topic)"/>
     <param name="traj_server/time_forward" value="1.0" type="double"/>
   </node>
 
-  <node pkg="waypoint_generator" name="waypoint_generator" type="waypoint_generator" output="screen">
+  <!-- <node pkg="waypoint_generator" name="waypoint_generator" type="waypoint_generator" output="screen">
     <remap from="~odom" to="$(arg odom_topic)"/>        
     <remap from="~goal" to="/move_base_simple/goal"/>
     <remap from="~traj_start_trigger" to="/traj_start_trigger" />
     <param name="waypoint_type" value="manual-lonely-waypoint"/>    
   </node>
 
-  <!-- use simulator -->
   <include file="$(find ego_planner)/launch/simulator.xml">
     <arg name="map_size_x_" value="$(arg map_size_x)"/>
     <arg name="map_size_y_" value="$(arg map_size_y)"/>
@@ -94,6 +94,6 @@
     <arg name="min_dist" value="1.2"/>
 
     <arg name="odometry_topic" value="$(arg odom_topic)" />
-  </include>
+  </include> -->
 
 </launch>

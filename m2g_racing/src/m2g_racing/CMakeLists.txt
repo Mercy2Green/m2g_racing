@@ -141,6 +141,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(circle_2_waypoint src/circle_2_waypoint/circle_2_waypoint.cpp)
 add_executable(tune_image_brightness src/tune_image_brightness/tune_image_brightness.cpp)
+add_executable(scene_2_image_raw src/scene_2_image_raw/scene_2_image_raw.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -160,6 +161,9 @@ target_link_libraries(circle_2_waypoint
 target_link_libraries(tune_image_brightness
   ${catkin_LIBRARIES}
 )
+
+target_link_libraries(scene_2_image_raw
+  ${catkin_LIBRARIES})
 
 #############
 ## Install ##
