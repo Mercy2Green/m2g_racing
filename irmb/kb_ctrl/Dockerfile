@@ -11,8 +11,6 @@ RUN apt install ros-noetic-geographic-msgs -y
 RUN apt install ros-noetic-tf2-sensor-msgs -y
 RUN apt install ros-noetic-tf2-geometry-msgs -y
 RUN apt install ros-noetic-image-transport -y
-RUN apt-get install libcanberra-gtk-module -y
-RUN apt-get install libcanberra-gtk3-module -y
 
 ENV ROS_DISTRO noetic
 

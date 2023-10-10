@@ -339,8 +339,8 @@ void cmdCallback(const ros::TimerEvent &e)
     acc = traj_[2].evaluateDeBoorT(t_cur);
 
     /*** calculate rotation ***/
-    //yaw_yawdot = calculate_yaw(t_cur, pos, time_now, time_last);
-    yaw_yawdot = calculate_rotation(t_cur, pos, time_now, time_last, last_yaw_, last_yaw_dot_, 1);
+    yaw_yawdot = calculate_yaw(t_cur, pos, time_now, time_last);
+    //yaw_yawdot = calculate_rotation(t_cur, pos, time_now, time_last, last_yaw_, last_yaw_dot_, 1);
     roll_rolldot = calculate_rotation(t_cur, pos, time_now, time_last, last_roll_, last_roll_dot_,2);
     pitch_pitchdot = calculate_rotation(t_cur, pos, time_now, time_last, last_pitch_, last_pitch_dot_, 3);
     /*** calculate rotation ***/
@@ -395,24 +395,24 @@ void cmdCallback(const ros::TimerEvent &e)
 
   //airsim_control
 
-  //vel_cmd
-  vel_cmd.twist.angular.x = roll_rolldot.second;
-  vel_cmd.twist.angular.y = pitch_pitchdot.second;
-  vel_cmd.twist.angular.z = -yaw_yawdot.second;
+  // vel_cmd
+  // vel_cmd.twist.angular.x = roll_rolldot.second;
+  // vel_cmd.twist.angular.y = -pitch_pitchdot.second;
+  // vel_cmd.twist.angular.z = -(3.1415926/2) + yaw_yawdot.second;
+  // vel_cmd.twist.angular.z = - yaw_yawdot.second;
 
   vel_cmd.twist.linear.x = vel(0);
-  vel_cmd.twist.linear.y = vel(1);
+  vel_cmd.twist.linear.y = -vel(1);
   vel_cmd.twist.linear.z = -vel(2);
 
   vel_cmd_pub.publish(vel_cmd);
 
-  //pose_cmd
+  // pose_cmd
 
-  pose_cmd.yaw = - yaw_yawdot.first;
-  pose_cmd.roll = roll_rolldot.first;
-  pose_cmd.pitch = pitch_pitchdot.first;
-
-  pose_cmd_pub.publish(pose_cmd);  
+  // pose_cmd.yaw = -yaw_yawdot.first;
+  // pose_cmd.roll = roll_rolldot.first;
+  // pose_cmd.pitch = pitch_pitchdot.first;
+  // pose_cmd_pub.publish(pose_cmd);  
 
 }
 
@@ -430,7 +430,7 @@ int main(int argc, char **argv)
 
   pose_cmd_pub = node.advertise<airsim_ros::PoseCmd>("/pose_cmd_body_frame", 50);
 
-  ros::Timer cmd_timer = node.createTimer(ros::Duration(0.01), cmdCallback);
+  ros::Timer cmd_timer = node.createTimer(ros::Duration(0.005), cmdCallback);
 
   /* control parameter */
   cmd.kx[0] = pos_gain[0];

@@ -72,8 +72,8 @@ def cal_from_tarfile(boards, tarname, mono = False, upload = False, calib_flags 
             if not response.success:
                 raise RuntimeError("connected to set_camera_info service, but failed setting camera_info")
         else:
-            set_left_camera_info_service = rospy.ServiceProxy("%s/set_camera_info" % rospy.remap_name("left_camera"), sensor_msgs.srv.SetCameraInfo)
-            set_right_camera_info_service = rospy.ServiceProxy("%s/set_camera_info" % rospy.remap_name("right_camera"), sensor_msgs.srv.SetCameraInfo)
+            set_left_camera_info_service = rospy.ServiceProxy("%s/camera_info" % rospy.remap_name("left_camera"), sensor_msgs.srv.SetCameraInfo)
+            set_right_camera_info_service = rospy.ServiceProxy("%s/camera_info" % rospy.remap_name("right_camera"), sensor_msgs.srv.SetCameraInfo)
 
             response1 = set_left_camera_info_service(info[0])
             response2 = set_right_camera_info_service(info[1])

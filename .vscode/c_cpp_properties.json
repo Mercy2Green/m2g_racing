@@ -6,7 +6,11 @@
                 "${workspaceFolder}/**",
                 "/opt/ros/noetic/include",
                 "/usr/include/opencv4",
-                "/usr/include/eigen3"
+                "/usr/include/eigen3",
+                "${workspaceFolder}/m2g_racing/src/robot_localization/include",
+                "/opt/ros/noetic/include/xmlrpcpp",
+                "/usr/include/pcl-1.10",
+                "${workspaceFolder}/Fast-Planner/fast_planner/bspline/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

@@ -142,9 +142,9 @@ class CalibrationNode:
 
         self.set_camera_info_service = rospy.ServiceProxy("%s/set_camera_info" % rospy.remap_name("camera"),
                                                           sensor_msgs.srv.SetCameraInfo)
-        self.set_left_camera_info_service = rospy.ServiceProxy("%s/set_camera_info" % rospy.remap_name("left_camera"),
+        self.set_left_camera_info_service = rospy.ServiceProxy("%s/camera_info" % rospy.remap_name("left_camera"),
                                                                sensor_msgs.srv.SetCameraInfo)
-        self.set_right_camera_info_service = rospy.ServiceProxy("%s/set_camera_info" % rospy.remap_name("right_camera"),
+        self.set_right_camera_info_service = rospy.ServiceProxy("%s/camera_info" % rospy.remap_name("right_camera"),
                                                                 sensor_msgs.srv.SetCameraInfo)
 
         self.q_mono = BufferQueue(queue_size)

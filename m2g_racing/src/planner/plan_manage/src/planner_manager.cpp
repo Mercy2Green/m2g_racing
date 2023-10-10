@@ -321,7 +321,7 @@ namespace ego_planner
         for (int j = 1; j < id_num; ++j)
         {
           Eigen::Vector3d inter_pt =
-              points.at(i) * (1.0 - double(j) / id_num) + points.at(i + 1) * double(j) / id_num;
+              points.at(i) * (1.0 - double(j) / id_num) + points.at(i + 1) * double(j) / id_num; //i need this!
           inter_points.push_back(inter_pt);
         }
       }
@@ -376,7 +376,8 @@ namespace ego_planner
 
     // insert intermediate points if too far
     vector<Eigen::Vector3d> inter_points;
-    const double dist_thresh = 4.0;
+    const double dist_thresh = 4; //this is i want !!
+    // const double dist_thresh = 4;
 
     for (size_t i = 0; i < points.size() - 1; ++i)
     {
@@ -399,8 +400,8 @@ namespace ego_planner
     inter_points.push_back(points.back());
 
     // write position matrix
-    int pt_num = inter_points.size();
-    Eigen::MatrixXd pos(3, pt_num);
+    int pt_num = inter_points.size(); //
+    Eigen::MatrixXd pos(3, pt_num); //xyz, number
     for (int i = 0; i < pt_num; ++i)
       pos.col(i) = inter_points[i];
 

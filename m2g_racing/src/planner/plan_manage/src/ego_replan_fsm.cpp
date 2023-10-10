@@ -61,66 +61,6 @@ namespace ego_planner
       cout << "Wrong target_type_ value! target_type_=" << target_type_ << endl;
   }
 
-
-
-
-
-  // void EGOReplanFSM::race_Callback(const nav_msgs::PathConstPtr &msg) //V2
-  // {
-  //   int waypoint_race_num_ = -1;
-  //   waypoint_race_num_ = msg->poses.size();
-  //   bool success = false;
-
-  //   cout << "waypoint_num: " << waypoint_race_num_ << endl;
-
-  //   for (int i = 0; i < waypoint_race_num_; i++)
-  //   {
-  //     cout << "Triggered!" << endl;
-  //     trigger_ = true;
-  //     init_pt_ = odom_pos_;
-  //     success = false;
-
-  //     cout << "Going to waypoint: " << i << endl;
-  //     end_pt_ << msg->poses[i].pose.position.x, msg->poses[i].pose.position.y, msg->poses[i].pose.position.z;
-
-  //     success = planner_manager_->planGlobalTraj(odom_pos_, odom_vel_, Eigen::Vector3d::Zero(), end_pt_, Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
-
-  //     visualization_->displayGoalPoint(end_pt_, Eigen::Vector4d(0, 0.5, 0.5, 1), 0.3, 0);
-
-  //     if (success)
-  //     {
-
-  //       /*** display ***/
-  //       constexpr double step_size_t = 0.1;
-  //       int i_end = floor(planner_manager_->global_data_.global_duration_ / step_size_t);
-  //       vector<Eigen::Vector3d> gloabl_traj(i_end);
-  //       for (int i = 0; i < i_end; i++)
-  //       {
-  //         gloabl_traj[i] = planner_manager_->global_data_.global_traj_.evaluate(i * step_size_t);
-  //       }
-
-  //       end_vel_.setZero();
-  //       have_target_ = true;
-  //       have_new_target_ = true;
-
-  //       /*** FSM ***/
-  //       if (exec_state_ == WAIT_TARGET)
-  //         changeFSMExecState(GEN_NEW_TRAJ, "TRIG");
-  //       else if (exec_state_ == EXEC_TRAJ)
-  //         changeFSMExecState(REPLAN_TRAJ, "TRIG");
-
-  //       // visualization_->displayGoalPoint(end_pt_, Eigen::Vector4d(1, 0, 0, 1), 0.3, 0);
-  //       visualization_->displayGlobalPathList(gloabl_traj, 0.1, 0);
-
-  //       success = false;// My add
-  //     }
-  //     else
-  //     {
-  //       ROS_ERROR("Unable to generate global trajectory!");
-  //     }
-  //   }
-  // }
-
   void EGOReplanFSM::race_Callback(const nav_msgs::PathConstPtr &msg) //v1.0
   {
 
@@ -285,7 +225,7 @@ namespace ego_planner
     }
   }
 
-  void EGOReplanFSM::odometryCallback(const nav_msgs::OdometryConstPtr &msg)
+  void EGOReplanFSM::odometryCallback(const nav_msgs::OdometryConstPtr &msg) //init
   {
     odom_pos_(0) = msg->pose.pose.position.x;
     odom_pos_(1) = msg->pose.pose.position.y;

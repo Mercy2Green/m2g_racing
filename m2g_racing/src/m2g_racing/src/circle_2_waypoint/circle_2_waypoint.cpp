@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 
 
     //ros::Subscriber circle_poses_sub = nh.subscribe("/airsim_node/drone_1/circle_poses", 1, circle_poses_cb);
-    ros::Subscriber circle_poses_sub = nh.subscribe("/airsim_node/drone_1/debug/circle_poses_gt", 1, circle_poses_cb);
+    ros::Subscriber circle_poses_sub = nh.subscribe("/airsim_node/drone_1/circle_poses", 1, circle_poses_cb);
 
     ros::Publisher waypoint_pub = nh.advertise<nav_msgs::Path>("/waypoint_generator/waypoints", 1);
 
@@ -77,22 +77,46 @@ int main(int argc, char* argv[])
         rate.sleep();
     }
 
+    
+
+
+
     if (circle_num != 0)
     {
-        for (int i=0;i<circle_num;i++)
-        {
-            cout << "circle_num: " << i << endl;
-            circle.position.x = circle_pose.poses[i].position.x;
-            circle.position.y = circle_pose.poses[i].position.y;
-            circle.position.z = circle_pose.poses[i].position.z;
+        // geometry_msgs::PoseStamped init_pose;
+        // init_pose.pose.position.x = 0;
+        // init_pose.pose.position.y = 0;
+        // init_pose.pose.position.z = 1;
+        // waypoints.poses.push_back(init_pose);
+        // waypoints.header.frame_id = std::string("world");
+        // waypoints.header.stamp = ros::Time::now();
 
-            geometry_msgs::PoseStamped pose_stamped;
-            pose_stamped.pose.position.x = circle.position.x;
-            pose_stamped.pose.position.y = -circle.position.y;
-            pose_stamped.pose.position.z = -circle.position.z;
-            waypoints.poses.push_back(pose_stamped);
-            waypoints.header.frame_id = std::string("world");
-            waypoints.header.stamp = ros::Time::now();
+        
+        vector<int> not_circle = {7, 8, 9, 10, 11};
+
+        //for (int i=0;i<circle_num;i++)
+        for (int i=0;i<7;i++)
+        {
+            if (std::find(not_circle.begin(), not_circle.end(), i-1) != not_circle.end())
+            {
+                continue;
+            }
+            else
+            {
+                cout << "circle_num: " << i << endl;
+                circle.position.x = circle_pose.poses[i].position.x;
+                circle.position.y = circle_pose.poses[i].position.y;
+                circle.position.z = circle_pose.poses[i].position.z;
+
+                geometry_msgs::PoseStamped pose_stamped;
+                pose_stamped.pose.position.x = circle.position.x;
+                pose_stamped.pose.position.y = -circle.position.y;
+                pose_stamped.pose.position.z = -circle.position.z;
+                waypoints.poses.push_back(pose_stamped);
+                waypoints.header.frame_id = std::string("world");
+                waypoints.header.stamp = ros::Time::now();
+            }
+
         }
     while (ros::ok())
     {

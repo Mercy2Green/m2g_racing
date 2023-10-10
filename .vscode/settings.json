@@ -71,7 +71,9 @@
     "typeinfo": "cpp",
     "valarray": "cpp",
     "variant": "cpp",
-    "bit": "cpp"
+    "bit": "cpp",
+    "*.ipp": "cpp",
+    "slist": "cpp"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "gcc",
