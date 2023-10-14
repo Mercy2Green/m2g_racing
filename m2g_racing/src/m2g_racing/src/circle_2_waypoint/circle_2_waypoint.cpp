@@ -30,58 +30,35 @@ int circle_num = 0;
 airsim_ros::Circle* circle_list;
 airsim_ros::Circle circle;
 
-nav_msgs::Path waypoints;
 
+int waypoint_length = 22;
+nav_msgs::Path waypoints;
+geometry_msgs::PoseStamped goal_waypoint_now;
+geometry_msgs::PoseStamped goal_waypoint_next;
+int goal_waypoint_number = 0;
+
+geometry_msgs::Point point, goal_point;
+
+double dis, dis_x, dis_y, dis_z;
+
+bool goal_waypoint_reach_now = false;
+bool goal_waypoint_go_next = false;
+
+ros::Publisher waypoint_pub;
+
+nav_msgs::Path waypoints_now;
 
 void circle_poses_cb(const airsim_ros::CirclePoses::ConstPtr& msg)
 {
+    geometry_msgs::Pose waypoint_pose;
+
+    bool flag = true; //Here
+    flag = false; //Here
+
     circle_pose = *msg;
     circle_num = circle_pose.poses.size();
-}
 
-void circle_cb(const airsim_ros::Circle::ConstPtr& msg)
-{
-    circle = *msg;
-}
-
-int main(int argc, char* argv[])
-{
-    ros::init(argc, argv, "circle_2_waypoint");
-    ros::NodeHandle nh;
-    geometry_msgs::Pose waypoint_pose;
-    airsim_ros::Takeoff takeoff;
-
-    bool takeoffflag = false;
-    //takeoffflag = true;
-
-    ros::Rate rate(1.0);
-
-    ros::ServiceClient takeoff_client = nh.serviceClient<airsim_ros::Takeoff>("/airsim_node/drone_1/takeoff");
-    if(!takeoffflag)
-    {
-        takeoff_client.call(takeoff);
-        takeoffflag = true;
-        ros::spinOnce();
-    }
-
-
-    //ros::Subscriber circle_poses_sub = nh.subscribe("/airsim_node/drone_1/circle_poses", 1, circle_poses_cb);
-    ros::Subscriber circle_poses_sub = nh.subscribe("/airsim_node/drone_1/circle_poses", 1, circle_poses_cb);
-
-    ros::Publisher waypoint_pub = nh.advertise<nav_msgs::Path>("/waypoint_generator/waypoints", 1);
-
-
-    while(ros::ok() && circle_num==0){
-
-        ros::spinOnce();
-        rate.sleep();
-    }
-
-    
-
-
-
-    if (circle_num != 0)
+    if (circle_num != 0 && flag)
     {
         // geometry_msgs::PoseStamped init_pose;
         // init_pose.pose.position.x = 0;
@@ -92,10 +69,10 @@ int main(int argc, char* argv[])
         // waypoints.header.stamp = ros::Time::now();
 
         
-        vector<int> not_circle = {7, 8, 9, 10, 11};
+        vector<int> not_circle = {6, 7, 8, 9, 10, 11};
 
         //for (int i=0;i<circle_num;i++)
-        for (int i=0;i<7;i++)
+        for (int i=0;i<circle_num;i++)
         {
             if (std::find(not_circle.begin(), not_circle.end(), i-1) != not_circle.end())
             {
@@ -118,14 +95,119 @@ int main(int argc, char* argv[])
             }
 
         }
-    while (ros::ok())
+        // while (ros::ok())
+        // {
+        //     waypoint_pub.publish(waypoints);
+        //     ros::spinOnce();
+        //     rate.sleep();
+        // }
+    }
+    else
     {
-        waypoint_pub.publish(waypoints);
+        //{7.20, 3.08, -0.59}, 
+        geometry_msgs::PoseStamped pose_stamped;
+        float goalpath[waypoint_length][3] = {
+            {16.44, 6.12, -0.59}, {41.16, 6.36, -7.70}, {76.75, 6.36, -2.15}, {97.07, 14.63, -9.62},
+            {105.86, 29.97, -10.58}, {90.03, 45.70, -9.05}, {65.91, 43.13, -10.97}, {52.53, 34.19, -12.53}, {13.93, 28.01, -13.73},
+            {1.61, 33.18, -13.73}, {-8.06, 47.80, -6.26}, {-47.46, 47.03, -5.51}, {-62.55, 50.09, -5.51}, {-52.26, 61.25, -11.09},
+            {-46.33, 78.05, -16.43}, {-43.78, 91.80, -20.75}, {-30.41, 126.99, -33.74}, {-17.93, 122.88, -33.74}, {-4.05, 106.5, -35.39},
+            {14.91, 97.52, -14.09}, {43.07, 90.16, -4.82}, {56.13, 89.43, -4.82}
+            }; 
+        for (int i=0;i<waypoint_length;i++)
+        {
+            pose_stamped.pose.position.x = goalpath[i][0];
+            pose_stamped.pose.position.y = -goalpath[i][1];
+            pose_stamped.pose.position.z = -goalpath[i][2];
+            waypoints.poses.push_back(pose_stamped);
+        }
+        // while (ros::ok())
+        // {
+        //     waypoints.header.frame_id = std::string("world");
+        //     waypoints.header.stamp = ros::Time::now();
+        //     waypoint_pub.publish(waypoints);
+        //     ros::spinOnce();
+        //     rate.sleep();
+        // }
+    }
+
+}
+
+void uav_pose_cb(const nav_msgs::Odometry::ConstPtr& msg)
+{ 
+    point = msg->pose.pose.position;
+    goal_point = waypoints.poses[goal_waypoint_number].pose.position;
+    dis_x = fabs(point.x - goal_point.x);
+    dis_y = fabs(point.y - goal_point.y);
+    dis_z = fabs(point.z - goal_point.z);
+    Eigen::Vector3d dis_vector(dis_x, dis_y, dis_z);
+    dis = dis_vector.norm();
+
+    cout << dis << endl;
+
+    if (dis < 0.5 && goal_waypoint_number < waypoint_length)
+    {
+        goal_waypoint_go_next = true;
+        goal_waypoint_reach_now = true;
+        goal_waypoint_number++;
+    }
+    else
+    {
+        waypoints_now.poses.clear();
+        waypoints_now.header.frame_id = std::string("world");
+        waypoints_now.header.stamp = ros::Time::now();
+        waypoints_now.poses.push_back(waypoints.poses[goal_waypoint_number]);
+        waypoint_pub.publish(waypoints_now);
+    }
+}
+
+int main(int argc, char* argv[])
+{
+    ros::init(argc, argv, "circle_2_waypoint");
+    ros::NodeHandle nh;
+
+    ros::Rate rate(1.0);
+
+    airsim_ros::Takeoff takeoff;
+
+    bool takeoffflag = false;
+    //takeoffflag = true;
+
+    ros::ServiceClient takeoff_client = nh.serviceClient<airsim_ros::Takeoff>("/airsim_node/drone_1/takeoff");
+    if(!takeoffflag)
+    {
+        takeoff_client.call(takeoff);
+        takeoffflag = true;
+        ros::spinOnce();
+    }
+
+    //{7.20, 3.08, -0.59}
+    geometry_msgs::PoseStamped pose_stamped;
+    float goalpath[waypoint_length][3] = {
+        {16.44, 6.12, -0.59}, {41.16, 6.36, -7.70}, {76.75, 6.36, -2.15}, {100.07, 12.63, -9.62},
+        {105.86, 29.97, -10.58}, {90.03, 45.70, -9.05}, {65.91, 43.13, -10.97}, {52.53, 34.19, -12.53}, {13.93, 28.01, -13.73},
+        {1.61, 33.18, -13.73}, {-8.06, 47.80, -6.26}, {-47.46, 47.03, -5.51}, {-62.55, 50.09, -5.51}, {-52.26, 61.25, -11.09},
+        {-46.33, 78.05, -16.43}, {-43.78, 91.80, -20.75}, {-30.41, 126.99, -33.74}, {-17.93, 122.88, -33.74}, {-4.05, 106.5, -35.39},
+        {14.91, 97.52, -14.09}, {43.07, 90.16, -4.82}, {56.13, 89.43, -4.82}
+        }; 
+    for (int i=0;i<waypoint_length;i++)
+    {
+        pose_stamped.pose.position.x = goalpath[i][0];
+        pose_stamped.pose.position.y = -goalpath[i][1];
+        pose_stamped.pose.position.z = -goalpath[i][2];
+        waypoints.poses.push_back(pose_stamped);
+    }
+
+    ros::Subscriber uav_pose_sub = nh.subscribe("/odometry", 1, uav_pose_cb);
+
+    //ros::Subscriber circle_poses_sub = nh.subscribe("/airsim_node/drone_1/circle_poses", 1, circle_poses_cb);
+
+    waypoint_pub = nh.advertise<nav_msgs::Path>("/waypoint_generator/waypoints", 1);
+
+    while(ros::ok()){
         ros::spinOnce();
         rate.sleep();
     }
 
-    }
 }
 
 

@@ -16,7 +16,7 @@ image1_topic: "/output_video/right/Scene"
 
 
 
-output_path: "/home/m2g/vins_output"
+# output_path: "/home/m2g/vins_output"
 
 
 cam0_calib: "left.yaml"

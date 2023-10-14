@@ -1,0 +1,7 @@
+<launch>
+
+    <node pkg="m2g_racing" type="circle_2_waypoint" name="circle_2_waypoint" output="screen">
+        <remap from="/odometry" to="/odometry/filtered"/>
+    </node>
+
+</launch>

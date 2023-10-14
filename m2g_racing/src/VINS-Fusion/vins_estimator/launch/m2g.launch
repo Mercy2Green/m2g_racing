@@ -2,16 +2,17 @@
 
 	<node pkg="m2g_racing" name="pose_correct" type="pose_correct"/>
 
-	<node pkg="m2g_racing" name="tune_image_brightness_left" type="tune_image_brightness" output="screen">
-		<remap from="/image_raw" to="airsim_node/drone_1/front_left/Scene"/>
+	<!-- <node pkg="m2g_racing" name="tune_image_brightness_left" type="tune_image_brightness" output="screen">
+		<remap from="/image_raw" to="/airsim_node/drone_1/front_left/Scene"/>
 		<remap from="/output_video" to="output_video/left/Scene"/>
 	</node>
 
 	<node pkg="m2g_racing" name="tune_image_brightness_right" type="tune_image_brightness" output="screen">
-		<remap from="/image_raw" to="airsim_node/drone_1/front_right/Scene"/>
+		<remap from="/image_raw" to="/airsim_node/drone_1/front_right/Scene"/>
 		<remap from="/output_video" to="output_video/right/Scene"/>
-	</node>
+	</node> -->
 
-	<node name="vins_fusion" pkg="vins"  type="vins_node" output="screen" args="$(find vins)/../config/m2g_change_image_brightness.yaml"/>
+	<!-- <node name="vins_fusion" pkg="vins"  type="vins_node" args="$(find vins)/../config/m2g_change_image_brightness.yaml"/> -->
+	<node name="vins_fusion" pkg="vins"  type="vins_node" args="$(find vins)/../config/m2g.yaml"/>
 
 </launch> 

@@ -17,6 +17,8 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   cv_bridge
   image_transport
+  tf2_ros
+  tf2
 )
 
 ## System dependencies are found with CMake's conventions
@@ -143,6 +145,7 @@ add_executable(circle_2_waypoint src/circle_2_waypoint/circle_2_waypoint.cpp)
 add_executable(tune_image_brightness src/tune_image_brightness/tune_image_brightness.cpp)
 add_executable(scene_2_image_raw src/scene_2_image_raw/scene_2_image_raw.cpp)
 add_executable(pose_correct src/pose_correct/pose_correct.cpp)
+add_executable(tf_airsim src/tf_airsim/tf_airsim.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -167,6 +170,9 @@ target_link_libraries(scene_2_image_raw
   ${catkin_LIBRARIES})
   
 target_link_libraries(pose_correct
+  ${catkin_LIBRARIES})
+
+target_link_libraries(tf_airsim
   ${catkin_LIBRARIES})
 #############
 ## Install ##

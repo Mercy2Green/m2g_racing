@@ -99,6 +99,7 @@ namespace ego_planner
     void getLocalTarget();
 
     void race_Callback(const nav_msgs::PathConstPtr &msg);
+    void race_Callback_real_time(const nav_msgs::PathConstPtr &msg);
 
     /* ROS functions */
     void execFSMCallback(const ros::TimerEvent &e);

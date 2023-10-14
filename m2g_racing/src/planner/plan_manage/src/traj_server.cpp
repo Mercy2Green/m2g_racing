@@ -22,6 +22,8 @@ airsim_ros::PoseCmd pose_cmd;
 double pos_gain[3] = {0, 0, 0};
 double vel_gain[3] = {0, 0, 0};
 
+double vx, vy, vz;
+
 using ego_planner::UniformBspline;
 
 bool receive_traj_ = false;
@@ -33,6 +35,8 @@ int traj_id_;
 // yaw control
 double last_yaw_, last_yaw_dot_;
 double time_forward_;
+
+double yaw_uav;
 
 double last_roll_, last_roll_dot_;
 double last_pitch_, last_pitch_dot_;
@@ -48,6 +52,7 @@ void bsplineCallback(ego_planner::BsplineConstPtr msg)
   {
     knots(i) = msg->knots[i];
   }
+  //knots is [knots1, knots2, knots3 .....]
 
   for (size_t i = 0; i < msg->pos_pts.size(); ++i)
   {
@@ -104,9 +109,12 @@ std::pair<double, double> calculate_yaw(double t_cur, Eigen::Vector3d &pos, ros:
 
   Eigen::Vector3d dir = t_cur + time_forward_ <= traj_duration_ ? traj_[0].evaluateDeBoorT(t_cur + time_forward_) - pos : traj_[0].evaluateDeBoorT(traj_duration_) - pos;
   //dir is Differential. Yes, it is the math Differential
+  //pos difference: x difference, y difference, z difference
+  //dir(1) is y, dir(0) is x.
 
-  double yaw_temp = dir.norm() > 0.1 ? atan2(dir(1), dir(0)) : last_yaw_; //y and x angle is dir(1), dir(0)
+  //double yaw_temp = dir.norm() > 0.1 ? atan2(dir(1), dir(0)) : last_yaw_; //y and x angle is dir(1), dir(0)
   //This is I want!!!!!
+  double yaw_temp = dir.norm() > 0.1 ? atan2(-dir(1), dir(0)) : last_yaw_; //y and x angle is dir(1), dir(0)
 
   double max_yaw_change = YAW_DOT_MAX_PER_SEC * (time_now - time_last).toSec();
 
@@ -312,7 +320,50 @@ std::pair<double, double> calculate_rotation(double t_cur, Eigen::Vector3d &pos,
   return rot_rotdot;
 }
 
+std::pair<double, double> calculate_yaw_simple(double t_cur, Eigen::Vector3d &pos, ros::Time &time_now, ros::Time &time_last)
+{
+  constexpr double PI = 3.1415926;
+  constexpr double YAW_DOT_MAX_PER_SEC = PI;
+  // constexpr double YAW_DOT_DOT_MAX_PER_SEC = PI;
+  std::pair<double, double> yaw_yawdot(0, 0);
+  double yaw = 0;
+  double yawdot = 0;
+  double max_yaw_change = YAW_DOT_MAX_PER_SEC * (time_now - time_last).toSec();
 
+  Eigen::Vector3d dir = t_cur + time_forward_ <= traj_duration_ ? traj_[0].evaluateDeBoorT(t_cur + time_forward_) - pos : traj_[0].evaluateDeBoorT(traj_duration_) - pos;
+  //dir is Differential. Yes, it is the math Differential
+  //pos difference: x difference, y difference, z difference
+  //dir(1) is y, dir(0) is x.
+
+  //double yaw_temp = dir.norm() > 0.1 ? atan2(dir(1), dir(0)) : last_yaw_; //y and x angle is dir(1), dir(0)
+  //This is I want!!!!!
+  yaw =  atan2(-dir(1), dir(0)); //y and x angle is dir(1), dir(0)
+  double yaw_angle = yaw / PI * 360;
+  cout << "Yaw angle" << yaw_angle << endl;
+  // double yaw_angle_last_yaw_ = last_yaw_ /PI *360;
+  // cout << "last yaw" << yaw_angle_last_yaw_ << endl;
+
+  yaw_angle = yaw_uav / PI * 360;
+  cout << "Yaw_uav angle" << yaw_angle << endl;
+
+  double yaw_now = yaw - yaw_uav;
+  //yaw_now = static_cast<int>(yaw_now) % 360 / 360 * PI;
+  cout << "yaw_difference" << yaw_now /PI *360 << endl;
+
+  yawdot = t_cur + time_forward_ <= traj_duration_ ? yaw_now / (t_cur + time_forward_): yaw_now / traj_duration_;
+
+  yawdot = fabs(yawdot) <= YAW_DOT_MAX_PER_SEC ? yawdot : YAW_DOT_MAX_PER_SEC;
+
+  cout << "yaw_dot" << yawdot << endl;
+
+  yaw_yawdot.first = yaw_now;
+  yaw_yawdot.second = yawdot;
+
+  last_yaw_ = yaw;
+  last_yaw_dot_ = yawdot;
+
+  return yaw_yawdot;
+}
 
 
 void cmdCallback(const ros::TimerEvent &e)
@@ -329,6 +380,8 @@ void cmdCallback(const ros::TimerEvent &e)
   std::pair<double, double> roll_rolldot(0, 0);//
   std::pair<double, double> pitch_pitchdot(0, 0);//
 
+  constexpr double PI = 3.1415926;  
+
   static ros::Time time_last = ros::Time::now();
   if (t_cur < traj_duration_ && t_cur >= 0.0)
   {
@@ -339,10 +392,14 @@ void cmdCallback(const ros::TimerEvent &e)
     acc = traj_[2].evaluateDeBoorT(t_cur);
 
     /*** calculate rotation ***/
-    yaw_yawdot = calculate_yaw(t_cur, pos, time_now, time_last);
+    //yaw_yawdot = calculate_yaw(t_cur, pos, time_now, time_last);
     //yaw_yawdot = calculate_rotation(t_cur, pos, time_now, time_last, last_yaw_, last_yaw_dot_, 1);
+
+    yaw_yawdot = calculate_yaw_simple(t_cur, pos, time_now, time_last);
     roll_rolldot = calculate_rotation(t_cur, pos, time_now, time_last, last_roll_, last_roll_dot_,2);
     pitch_pitchdot = calculate_rotation(t_cur, pos, time_now, time_last, last_pitch_, last_pitch_dot_, 3);
+
+
     /*** calculate rotation ***/
 
     double tf = min(traj_duration_, t_cur + 2.0);
@@ -367,45 +424,54 @@ void cmdCallback(const ros::TimerEvent &e)
   {
     cout << "[Traj server]: invalid time." << endl;
   }
-  time_last = time_now;
+  // time_last = time_now;
 
-  cmd.header.stamp = time_now;
-  cmd.header.frame_id = "world";
-  cmd.trajectory_flag = quadrotor_msgs::PositionCommand::TRAJECTORY_STATUS_READY;
-  cmd.trajectory_id = traj_id_;
+  // cmd.header.stamp = time_now;
+  // cmd.header.frame_id = "world";
+  // cmd.trajectory_flag = quadrotor_msgs::PositionCommand::TRAJECTORY_STATUS_READY;
+  // cmd.trajectory_id = traj_id_;
 
-  cmd.position.x = pos(0);
-  cmd.position.y = pos(1);
-  cmd.position.z = pos(2);
+  // cmd.position.x = pos(0);
+  // cmd.position.y = pos(1);
+  // cmd.position.z = pos(2);
 
-  cmd.velocity.x = vel(0);
-  cmd.velocity.y = vel(1);
-  cmd.velocity.z = vel(2);
+  // cmd.velocity.x = vel(0);
+  // cmd.velocity.y = vel(1);
+  // cmd.velocity.z = vel(2);
 
-  cmd.acceleration.x = acc(0);
-  cmd.acceleration.y = acc(1);
-  cmd.acceleration.z = acc(2);
+  // cmd.acceleration.x = acc(0);
+  // cmd.acceleration.y = acc(1);
+  // cmd.acceleration.z = acc(2);
 
-  cmd.yaw = yaw_yawdot.first;
-  cmd.yaw_dot = yaw_yawdot.second;
+  // cmd.yaw = yaw_yawdot.first;
+  // cmd.yaw_dot = yaw_yawdot.second;
 
-  last_yaw_ = cmd.yaw;
+  // last_yaw_ = cmd.yaw;
 
-  //pos_cmd_pub.publish(cmd);
+  // pos_cmd_pub.publish(cmd);
 
   //airsim_control
 
   // vel_cmd
-  // vel_cmd.twist.angular.x = roll_rolldot.second;
-  // vel_cmd.twist.angular.y = -pitch_pitchdot.second;
-  // vel_cmd.twist.angular.z = -(3.1415926/2) + yaw_yawdot.second;
-  // vel_cmd.twist.angular.z = - yaw_yawdot.second;
+  //vel_cmd.twist.angular.x = roll_rolldot.first;
+  //vel_cmd.twist.angular.y = -pitch_pitchdot.first;
+  vel_cmd.twist.angular.z = yaw_yawdot.second;
 
-  vel_cmd.twist.linear.x = vel(0);
-  vel_cmd.twist.linear.y = -vel(1);
-  vel_cmd.twist.linear.z = -vel(2);
+  vx = vel(0);
+  vy = -vel(1);
+  vz = -vel(2);
+
+  vel_cmd.twist.linear.x = vx * cos(yaw_uav) + vy * sin(yaw_uav);
+  vel_cmd.twist.linear.y = -vx * sin(yaw_uav) + vy * cos(yaw_uav);
+  vel_cmd.twist.linear.z = vz;
+
+  // vel_cmd.twist.linear.x = vel(0);
+  // vel_cmd.twist.linear.y = -vel(1);
+  // vel_cmd.twist.linear.z = -vel(2);
 
   vel_cmd_pub.publish(vel_cmd);
+
+  cout << "angular velociety"<<yaw_yawdot.second << endl;
 
   // pose_cmd
 
@@ -416,19 +482,48 @@ void cmdCallback(const ros::TimerEvent &e)
 
 }
 
+void yaw_Callback(const nav_msgs::Odometry::ConstPtr& msg)
+{
+    geometry_msgs::Quaternion orientation = msg->pose.pose.orientation;
+    // i want using orientation calculate roll, pitch, yaw
+    // roll = atan2(2*(orientation.w*orientation.x + orientation.y*orientation.z), 1 - 2*(orientation.x*orientation.x + orientation.y*orientation.y));
+    // pitch = asin(2*(orientation.w*orientation.y - orientation.z*orientation.x));
+    yaw_uav = - atan2(2*(orientation.w*orientation.z + orientation.x*orientation.y), 1 - 2*(orientation.y*orientation.y + orientation.z*orientation.z));
+
+    cout << "yaw_uav angle" << yaw_uav/3.14*360 << endl;
+}
+
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "traj_server");
   ros::NodeHandle node;
   ros::NodeHandle nh("~");
 
+  vx = 0.0;
+  vy = 0.0;
+  vz = 0.0;
+
+  last_yaw_ = 0.0;
+  last_yaw_dot_ = 0.0;
+
+  last_roll_ = 0.0;
+  last_roll_dot_ = 0.0;
+
+  last_pitch_ = 0.0;
+  last_pitch_dot_ = 0.0;
+
+  yaw_uav = 0.0;
+
   ros::Subscriber bspline_sub = node.subscribe("planning/bspline", 10, bsplineCallback);
 
-  //pos_cmd_pub = node.advertise<quadrotor_msgs::PositionCommand>("/position_cmd", 50);
+  pos_cmd_pub = node.advertise<quadrotor_msgs::PositionCommand>("/position_cmd", 50);
 
   vel_cmd_pub = node.advertise<airsim_ros::VelCmd>("/vel_cmd_body_frame", 50);
 
   pose_cmd_pub = node.advertise<airsim_ros::PoseCmd>("/pose_cmd_body_frame", 50);
+
+  ros::Subscriber yaw_sub = node.subscribe("/odometry", 10, yaw_Callback);
+
 
   ros::Timer cmd_timer = node.createTimer(ros::Duration(0.005), cmdCallback);
 
@@ -442,14 +537,6 @@ int main(int argc, char **argv)
   cmd.kv[2] = vel_gain[2];
 
   nh.param("traj_server/time_forward", time_forward_, -1.0); //origin is 1
-  last_yaw_ = 0.0;
-  last_yaw_dot_ = 0.0;
-
-  last_roll_ = 0.0;
-  last_roll_dot_ = 0.0;
-
-  last_pitch_ = 0.0;
-  last_pitch_dot_ = 0.0;
 
   ros::Duration(1.0).sleep();
 

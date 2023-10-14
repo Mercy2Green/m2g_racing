@@ -6,6 +6,9 @@ namespace ego_planner
 
   void EGOReplanFSM::init(ros::NodeHandle &nh)
   {
+
+    //Main function
+
     current_wp_ = 0;
     exec_state_ = FSM_EXEC_STATE::INIT;
     have_target_ = false;
@@ -54,12 +57,60 @@ namespace ego_planner
 
     else if (target_type_ == TARGET_TYPE::RACE_PATH)
     {
-      waypoint_race_sub_ = nh.subscribe("/waypoint_generator/waypoints", 1, &EGOReplanFSM::race_Callback, this);
+      //waypoint_race_sub_ = nh.subscribe("/waypoint_generator/waypoints", 1, &EGOReplanFSM::race_Callback, this);
+      waypoint_race_sub_ = nh.subscribe("/waypoint_generator/waypoints", 1, &EGOReplanFSM::race_Callback_real_time, this);
     }
 
     else
       cout << "Wrong target_type_ value! target_type_=" << target_type_ << endl;
   }
+
+  void EGOReplanFSM::race_Callback_real_time(const nav_msgs::PathConstPtr &msg) //v2.0
+  {
+    if (msg->poses[0].pose.position.z < -0.1)
+      return;
+
+    cout << "Triggered!" << endl;
+    trigger_ = true;
+    init_pt_ = odom_pos_;
+
+    bool success = false;
+    end_pt_ << msg->poses[0].pose.position.x, msg->poses[0].pose.position.y, msg->poses[0].pose.position.z;
+    success = planner_manager_->planGlobalTraj(odom_pos_, odom_vel_, Eigen::Vector3d::Zero(), end_pt_, Eigen::Vector3d::Zero(), Eigen::Vector3d::Zero());
+
+    visualization_->displayGoalPoint(end_pt_, Eigen::Vector4d(0, 0.5, 0.5, 1), 0.3, 0);
+
+    if (success)
+    {
+
+      /*** display ***/
+      constexpr double step_size_t = 0.1;
+      int i_end = floor(planner_manager_->global_data_.global_duration_ / step_size_t);
+      vector<Eigen::Vector3d> gloabl_traj(i_end);
+      for (int i = 0; i < i_end; i++)
+      {
+        gloabl_traj[i] = planner_manager_->global_data_.global_traj_.evaluate(i * step_size_t);
+      }
+
+      end_vel_.setZero();
+      have_target_ = true;
+      have_new_target_ = true;
+
+      /*** FSM ***/
+      if (exec_state_ == WAIT_TARGET)
+        changeFSMExecState(GEN_NEW_TRAJ, "TRIG");
+      else if (exec_state_ == EXEC_TRAJ)
+        changeFSMExecState(REPLAN_TRAJ, "TRIG");
+
+      // visualization_->displayGoalPoint(end_pt_, Eigen::Vector4d(1, 0, 0, 1), 0.3, 0);
+      visualization_->displayGlobalPathList(gloabl_traj, 0.1, 0);
+    }
+    else
+    {
+      ROS_ERROR("Unable to generate global trajectory!");
+    }
+  }
+
 
   void EGOReplanFSM::race_Callback(const nav_msgs::PathConstPtr &msg) //v1.0
   {
@@ -235,12 +286,15 @@ namespace ego_planner
     odom_vel_(1) = msg->twist.twist.linear.y;
     odom_vel_(2) = msg->twist.twist.linear.z;
 
+
     //odom_acc_ = estimateAcc( msg );
 
     odom_orient_.w() = msg->pose.pose.orientation.w;
     odom_orient_.x() = msg->pose.pose.orientation.x;
     odom_orient_.y() = msg->pose.pose.orientation.y;
     odom_orient_.z() = msg->pose.pose.orientation.z;
+
+
 
     have_odom_ = true;
   }
@@ -496,7 +550,8 @@ namespace ego_planner
     getLocalTarget();
 
     bool plan_success =
-        planner_manager_->reboundReplan(start_pt_, start_vel_, start_acc_, local_target_pt_, local_target_vel_, (have_new_target_ || flag_use_poly_init), flag_randomPolyTraj);
+        //planner_manager_->reboundReplan(start_pt_, start_vel_, start_acc_, local_target_pt_, local_target_vel_, (have_new_target_ || flag_use_poly_init), flag_randomPolyTraj);
+        planner_manager_->reboundReplan(odom_pos_, start_vel_, start_acc_, local_target_pt_, local_target_vel_, (have_new_target_ || flag_use_poly_init), flag_randomPolyTraj);
     have_new_target_ = false;
 
     cout << "final_plan_success=" << plan_success << endl;
