@@ -15,4 +15,12 @@
 	<!-- <node name="vins_fusion" pkg="vins"  type="vins_node" args="$(find vins)/../config/m2g_change_image_brightness.yaml"/> -->
 	<node name="vins_fusion" pkg="vins"  type="vins_node" args="$(find vins)/../config/m2g.yaml"/>
 
+
+	<node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true">
+    <rosparam command="load" file="$(find robot_localization)/params/ekf_template.yaml" />
+  	</node>
+
+	<include file="$(find m2g_racing)/launch/search_circle.launch" />
+
+
 </launch> 

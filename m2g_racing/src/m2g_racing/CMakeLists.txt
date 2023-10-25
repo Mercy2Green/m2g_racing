@@ -142,6 +142,7 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(circle_2_waypoint src/circle_2_waypoint/circle_2_waypoint.cpp)
+add_executable(search_circle src/circle_2_waypoint/search_circle.cpp)
 add_executable(tune_image_brightness src/tune_image_brightness/tune_image_brightness.cpp)
 add_executable(scene_2_image_raw src/scene_2_image_raw/scene_2_image_raw.cpp)
 add_executable(pose_correct src/pose_correct/pose_correct.cpp)
@@ -173,6 +174,9 @@ target_link_libraries(pose_correct
   ${catkin_LIBRARIES})
 
 target_link_libraries(tf_airsim
+  ${catkin_LIBRARIES})
+
+target_link_libraries(search_circle
   ${catkin_LIBRARIES})
 #############
 ## Install ##

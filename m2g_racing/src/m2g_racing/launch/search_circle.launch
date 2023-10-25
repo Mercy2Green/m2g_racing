@@ -1,0 +1,6 @@
+<launch>
+
+    <node pkg="m2g_racing" type="search_circle" name="search_circle" output="screen">
+        <remap from="/odometry" to="/odometry/filtered"/>
+    </node>
+</launch>

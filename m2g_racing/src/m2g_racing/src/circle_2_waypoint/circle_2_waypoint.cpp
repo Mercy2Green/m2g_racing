@@ -12,6 +12,7 @@
 #include <nav_msgs/Path.h>
 
 #include <geometry_msgs/PoseStamped.h>
+#include <geometry_msgs/PointStamped.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/PoseArray.h>
 #include <geometry_msgs/Vector3.h>
@@ -37,16 +38,34 @@ geometry_msgs::PoseStamped goal_waypoint_now;
 geometry_msgs::PoseStamped goal_waypoint_next;
 int goal_waypoint_number = 0;
 
-geometry_msgs::Point point, goal_point;
+geometry_msgs::Point uav_point, goal_point;
 
 double dis, dis_x, dis_y, dis_z;
 
 bool goal_waypoint_reach_now = false;
 bool goal_waypoint_go_next = false;
+bool flag_search_circle = false;
+bool flag_circle_fixed = false;
+
+double dis_threshold = 3.5;
+double circle_dis_threshold = 0.7;
+double circle_fixed_dis_threshold = 0.2;
 
 ros::Publisher waypoint_pub;
 
 nav_msgs::Path waypoints_now;
+
+ros::Subscriber circle_loaction_sub;
+
+geometry_msgs::PointStamped circle_loaction, circle_location_fixed;
+
+geometry_msgs::PointStamped calculate_circle_loaction_fixed(geometry_msgs::PointStamped circle_loaction_origin, geometry_msgs::PointStamped circle_loaction_);
+
+
+void circle_loaction_cb(const geometry_msgs::PointStamped::ConstPtr& msg)
+{
+    circle_loaction = *msg;
+}
 
 void circle_poses_cb(const airsim_ros::CirclePoses::ConstPtr& msg)
 {
@@ -107,7 +126,7 @@ void circle_poses_cb(const airsim_ros::CirclePoses::ConstPtr& msg)
         //{7.20, 3.08, -0.59}, 
         geometry_msgs::PoseStamped pose_stamped;
         float goalpath[waypoint_length][3] = {
-            {16.44, 6.12, -0.59}, {41.16, 6.36, -7.70}, {76.75, 6.36, -2.15}, {97.07, 14.63, -9.62},
+            {16.44, 6.12, -0.59}, {40.16, -5.36, -14.70}, {76.75, 6.36, -2.15}, {97.07, 14.63, -9.62},
             {105.86, 29.97, -10.58}, {90.03, 45.70, -9.05}, {65.91, 43.13, -10.97}, {52.53, 34.19, -12.53}, {13.93, 28.01, -13.73},
             {1.61, 33.18, -13.73}, {-8.06, 47.80, -6.26}, {-47.46, 47.03, -5.51}, {-62.55, 50.09, -5.51}, {-52.26, 61.25, -11.09},
             {-46.33, 78.05, -16.43}, {-43.78, 91.80, -20.75}, {-30.41, 126.99, -33.74}, {-17.93, 122.88, -33.74}, {-4.05, 106.5, -35.39},
@@ -134,21 +153,93 @@ void circle_poses_cb(const airsim_ros::CirclePoses::ConstPtr& msg)
 
 void uav_pose_cb(const nav_msgs::Odometry::ConstPtr& msg)
 { 
-    point = msg->pose.pose.position;
+    double circle_dis, circle_dis_old, circle_dis_fixed;
+    uav_point = msg->pose.pose.position;
     goal_point = waypoints.poses[goal_waypoint_number].pose.position;
-    dis_x = fabs(point.x - goal_point.x);
-    dis_y = fabs(point.y - goal_point.y);
-    dis_z = fabs(point.z - goal_point.z);
+    dis_x = fabs(uav_point.x - goal_point.x);
+    dis_y = fabs(uav_point.y - goal_point.y);
+    dis_z = fabs(uav_point.z - goal_point.z);
     Eigen::Vector3d dis_vector(dis_x, dis_y, dis_z);
     dis = dis_vector.norm();
 
+    geometry_msgs::PointStamped circle_loaction_goal;
+
     cout << dis << endl;
 
-    if (dis < 0.5 && goal_waypoint_number < waypoint_length)
+    if (dis < dis_threshold && goal_waypoint_number < waypoint_length)
     {
         goal_waypoint_go_next = true;
         goal_waypoint_reach_now = true;
         goal_waypoint_number++;
+        flag_search_circle = true;
+    }
+    else if(flag_search_circle)
+    {
+        dis_x = fabs(circle_loaction.point.x - uav_point.x);
+        dis_y = fabs(circle_loaction.point.y - uav_point.y);
+        dis_z = fabs(circle_loaction.point.z - uav_point.z);
+        Eigen::Vector3d dis_vector(dis_x, dis_y, dis_z);
+        circle_dis = dis_vector.norm();
+
+        //cout << "location" << circle_loaction << endl;
+        if (circle_dis > circle_dis_threshold && !flag_circle_fixed)
+        {
+            waypoints_now.poses.clear();
+
+            waypoints_now.header.frame_id = std::string("world");
+
+            waypoints_now.header.stamp = ros::Time::now();
+
+            circle_loaction_goal = calculate_circle_loaction_fixed(circle_loaction_goal, circle_loaction);
+
+            goal_waypoint_now.pose.position = circle_loaction_goal.point;
+
+            waypoints_now.poses.push_back(goal_waypoint_now);
+
+            waypoint_pub.publish(waypoints_now);
+
+            cout << "circle_dis" << circle_dis << endl;
+            
+            cout << "Go dynamic" << endl;
+
+
+            if (fabs(circle_dis - circle_dis_old) > 8)
+            {
+                    flag_search_circle = false;
+                    flag_circle_fixed = false;
+            }
+        }
+        circle_dis_old = circle_dis;
+        // else if (circle_dis < circle_dis_threshold)
+        // {
+        //     // calculate_circle_loaction_fixed(circle_loaction);
+
+        //     // flag_circle_fixed = true;
+
+        //     // waypoints_now.poses.clear();
+
+        //     // waypoints_now.header.frame_id = std::string("world");
+
+        //     // waypoints_now.header.stamp = ros::Time::now();
+
+        //     // goal_waypoint_now.pose.position = circle_location_fixed.point;
+
+        //     // goal_waypoint_now.pose.position.x += 2;
+
+        //     // waypoints_now.poses.push_back(goal_waypoint_now);
+
+        //     // waypoint_pub.publish(waypoints_now);
+
+        //     // circle_dis_fixed = fabs(circle_location_fixed.point.x - uav_point.x);
+
+        //     // cout << "Go fixed"<< circle_dis_fixed << endl;
+
+        //     if (circle_dis_fixed < circle_fixed_dis_threshold)
+        //     {
+        //         flag_search_circle = false;
+        //         flag_circle_fixed = false;
+        //     }
+        // }
     }
     else
     {
@@ -160,12 +251,41 @@ void uav_pose_cb(const nav_msgs::Odometry::ConstPtr& msg)
     }
 }
 
+
+geometry_msgs::PointStamped calculate_circle_loaction_fixed(geometry_msgs::PointStamped circle_loaction_origin, geometry_msgs::PointStamped circle_loaction_)
+{
+    double dis_x, dis_y, dis_z;
+    dis_x = fabs(circle_loaction_.point.x - circle_loaction_origin.point.x);
+    dis_y = fabs(circle_loaction_.point.y - circle_loaction_origin.point.y);
+    dis_z = fabs(circle_loaction_.point.z - circle_loaction_origin.point.z);
+    Eigen::Vector3d dis_vector(dis_x, dis_y, dis_z);
+    dis = dis_vector.norm();
+
+    float weight = 0.3;
+    
+    if (dis < 0.5)
+    {
+        circle_loaction_origin.point.x = weight * circle_loaction_.point.x + (1-weight) * circle_loaction_origin.point.x;
+        circle_loaction_origin.point.y = weight * circle_loaction_.point.y + (1-weight) * circle_loaction_origin.point.y;
+        circle_loaction_origin.point.z = weight * circle_loaction_.point.z + (1-weight) * circle_loaction_origin.point.z;
+        cout << "circle_location_fixed" << circle_loaction_origin << endl;
+    }
+    else
+    {
+        circle_loaction_origin.point.x = circle_loaction_.point.x;
+        circle_loaction_origin.point.y = circle_loaction_.point.y;
+        circle_loaction_origin.point.z = circle_loaction_.point.z;
+    }
+    return circle_loaction_origin;
+}
+
+
 int main(int argc, char* argv[])
 {
     ros::init(argc, argv, "circle_2_waypoint");
     ros::NodeHandle nh;
 
-    ros::Rate rate(1.0);
+    ros::Rate rate(5.0);
 
     airsim_ros::Takeoff takeoff;
 
@@ -173,6 +293,7 @@ int main(int argc, char* argv[])
     //takeoffflag = true;
 
     ros::ServiceClient takeoff_client = nh.serviceClient<airsim_ros::Takeoff>("/airsim_node/drone_1/takeoff");
+
     if(!takeoffflag)
     {
         takeoff_client.call(takeoff);
@@ -183,7 +304,7 @@ int main(int argc, char* argv[])
     //{7.20, 3.08, -0.59}
     geometry_msgs::PoseStamped pose_stamped;
     float goalpath[waypoint_length][3] = {
-        {16.44, 6.12, -0.59}, {41.16, 6.36, -7.70}, {76.75, 6.36, -2.15}, {100.07, 12.63, -9.62},
+        {16.44, 5, -0.7}, {41.00, 3.36, -11.00}, {76.75, 6.36, -2.15}, {100.07, 12.63, -9.62},
         {105.86, 29.97, -10.58}, {90.03, 45.70, -9.05}, {65.91, 43.13, -10.97}, {52.53, 34.19, -12.53}, {13.93, 28.01, -13.73},
         {1.61, 33.18, -13.73}, {-8.06, 47.80, -6.26}, {-47.46, 47.03, -5.51}, {-62.55, 50.09, -5.51}, {-52.26, 61.25, -11.09},
         {-46.33, 78.05, -16.43}, {-43.78, 91.80, -20.75}, {-30.41, 126.99, -33.74}, {-17.93, 122.88, -33.74}, {-4.05, 106.5, -35.39},
@@ -199,6 +320,9 @@ int main(int argc, char* argv[])
 
     ros::Subscriber uav_pose_sub = nh.subscribe("/odometry", 1, uav_pose_cb);
 
+    circle_loaction_sub = nh.subscribe("/circle_location", 1, circle_loaction_cb);
+    //cout << "Here" <<endl;
+
     //ros::Subscriber circle_poses_sub = nh.subscribe("/airsim_node/drone_1/circle_poses", 1, circle_poses_cb);
 
     waypoint_pub = nh.advertise<nav_msgs::Path>("/waypoint_generator/waypoints", 1);
@@ -209,6 +333,35 @@ int main(int argc, char* argv[])
     }
 
 }
+
+
+// void uav_pose_cb(const nav_msgs::Odometry::ConstPtr& msg)
+// { 
+//     point = msg->pose.pose.position;
+//     goal_point = waypoints.poses[goal_waypoint_number].pose.position;
+//     dis_x = fabs(point.x - goal_point.x);
+//     dis_y = fabs(point.y - goal_point.y);
+//     dis_z = fabs(point.z - goal_point.z);
+//     Eigen::Vector3d dis_vector(dis_x, dis_y, dis_z);
+//     dis = dis_vector.norm();
+
+//     cout << dis << endl;
+
+//     if (dis < dis_threshold && goal_waypoint_number < waypoint_length)
+//     {
+//         goal_waypoint_go_next = true;
+//         goal_waypoint_reach_now = true;
+//         goal_waypoint_number++;
+//     }
+//     else
+//     {
+//         waypoints_now.poses.clear();
+//         waypoints_now.header.frame_id = std::string("world");
+//         waypoints_now.header.stamp = ros::Time::now();
+//         waypoints_now.poses.push_back(waypoints.poses[goal_waypoint_number]);
+//         waypoint_pub.publish(waypoints_now);
+//     }
+// }
 
 
 //-------------V1

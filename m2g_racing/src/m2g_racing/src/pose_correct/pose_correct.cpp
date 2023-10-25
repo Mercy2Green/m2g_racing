@@ -7,9 +7,11 @@
 # include <geometry_msgs/PoseStamped.h>
 # include <geometry_msgs/PoseWithCovarianceStamped.h>
 
+# include <sensor_msgs/Imu.h>
+
 using namespace std;
 
-ros::Publisher correct_pose_pub, correct_posewithcov_pub;
+ros::Publisher correct_pose_pub, correct_posewithcov_pub, correct_imu_pub;
 
 geometry_msgs::PoseStamped correct_pose;
 
@@ -37,6 +39,19 @@ void pose_correct_cb(const geometry_msgs::PoseStamped::ConstPtr& msg)
     correct_posewithcov_pub.publish(out_msg);
 }
 
+void imu_correct_cb(const sensor_msgs::Imu::ConstPtr& msg)
+{
+    sensor_msgs::Imu out_msg;
+    out_msg = *msg;
+    out_msg.angular_velocity.y = -out_msg.angular_velocity.y;
+    out_msg.angular_velocity.z = -out_msg.angular_velocity.z;
+    out_msg.linear_acceleration.y = -out_msg.linear_acceleration.y;
+    out_msg.linear_acceleration.z = -out_msg.linear_acceleration.z;
+
+    correct_imu_pub.publish(out_msg);
+
+}
+
 int main(int argc, char* argv[])
 {
     ros::init(argc, argv, "pose_correct");
@@ -47,11 +62,15 @@ int main(int argc, char* argv[])
 
     geometry_msgs::PoseStamped correct_pose;
 
-    ros::Rate rate(1.0);
+    ros::Rate rate(100.0);
 
     ros::Subscriber origin_pose_sub = nh.subscribe("/airsim_node/drone_1/pose", 10, pose_correct_cb);
 
     correct_posewithcov_pub = nh.advertise<geometry_msgs::PoseWithCovarianceStamped>("/pose", 10);
+
+    ros::Subscriber origin_imu_sub = nh.subscribe("/airsim_node/drone_1/imu/imu", 10, imu_correct_cb);
+
+    correct_imu_pub = nh.advertise<sensor_msgs::Imu>("/imu", 10);
 
     //correct_pose_pub = nh.advertise<geometry_msgs::PoseStamped>("/pose", 10);
 

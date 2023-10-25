@@ -36,7 +36,7 @@ RUN apt-get -y install libsuitesparse-dev libtool
 RUN cd glog && ./autogen.sh && ./configure && make && sudo make install
 RUN apt-get install -y liblapack-dev libsuitesparse-dev libgflags-dev libgoogle-glog-dev libgtest-dev
 
-RUN cd ../ceres && mkdir build && cd build && cmake .. && make -j4 && make install
+RUN cd ../ceres && mkdir build && cd build && cmake .. && make -j10 && make install
 RUN apt-get install -y ros-noetic-ddynamic-reconfigure
 RUN cd ..
 

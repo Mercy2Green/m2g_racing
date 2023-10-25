@@ -339,22 +339,22 @@ std::pair<double, double> calculate_yaw_simple(double t_cur, Eigen::Vector3d &po
   //This is I want!!!!!
   yaw =  atan2(-dir(1), dir(0)); //y and x angle is dir(1), dir(0)
   double yaw_angle = yaw / PI * 360;
-  cout << "Yaw angle" << yaw_angle << endl;
+  //cout << "Yaw angle" << yaw_angle << endl;
   // double yaw_angle_last_yaw_ = last_yaw_ /PI *360;
   // cout << "last yaw" << yaw_angle_last_yaw_ << endl;
 
   yaw_angle = yaw_uav / PI * 360;
-  cout << "Yaw_uav angle" << yaw_angle << endl;
+  //cout << "Yaw_uav angle" << yaw_angle << endl;
 
   double yaw_now = yaw - yaw_uav;
   //yaw_now = static_cast<int>(yaw_now) % 360 / 360 * PI;
-  cout << "yaw_difference" << yaw_now /PI *360 << endl;
+  //cout << "yaw_difference" << yaw_now /PI *360 << endl;
 
   yawdot = t_cur + time_forward_ <= traj_duration_ ? yaw_now / (t_cur + time_forward_): yaw_now / traj_duration_;
 
   yawdot = fabs(yawdot) <= YAW_DOT_MAX_PER_SEC ? yawdot : YAW_DOT_MAX_PER_SEC;
 
-  cout << "yaw_dot" << yawdot << endl;
+  //cout << "yaw_dot" << yawdot << endl;
 
   yaw_yawdot.first = yaw_now;
   yaw_yawdot.second = yawdot;
@@ -471,7 +471,7 @@ void cmdCallback(const ros::TimerEvent &e)
 
   vel_cmd_pub.publish(vel_cmd);
 
-  cout << "angular velociety"<<yaw_yawdot.second << endl;
+  //cout << "angular velociety"<<yaw_yawdot.second << endl;
 
   // pose_cmd
 
@@ -490,7 +490,7 @@ void yaw_Callback(const nav_msgs::Odometry::ConstPtr& msg)
     // pitch = asin(2*(orientation.w*orientation.y - orientation.z*orientation.x));
     yaw_uav = - atan2(2*(orientation.w*orientation.z + orientation.x*orientation.y), 1 - 2*(orientation.y*orientation.y + orientation.z*orientation.z));
 
-    cout << "yaw_uav angle" << yaw_uav/3.14*360 << endl;
+    //cout << "yaw_uav angle" << yaw_uav/3.14*360 << endl;
 }
 
 int main(int argc, char **argv)
@@ -525,7 +525,7 @@ int main(int argc, char **argv)
   ros::Subscriber yaw_sub = node.subscribe("/odometry", 10, yaw_Callback);
 
 
-  ros::Timer cmd_timer = node.createTimer(ros::Duration(0.005), cmdCallback);
+  ros::Timer cmd_timer = node.createTimer(ros::Duration(0.006), cmdCallback);
 
   /* control parameter */
   cmd.kx[0] = pos_gain[0];

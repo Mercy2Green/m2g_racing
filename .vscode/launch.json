@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/m2g/uav/m2g_racing/m2g_racing/shfile",
-      "program": "/home/m2g/uav/m2g_racing/m2g_racing/shfile/build/Debug/outDebug",
+      "cwd": "/home/m2g/uav/m2g_racing/m2g_racing/src/m2g_racing/src/circle_2_waypoint",
+      "program": "/home/m2g/uav/m2g_racing/m2g_racing/src/m2g_racing/src/circle_2_waypoint/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
