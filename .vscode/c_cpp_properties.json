@@ -10,7 +10,8 @@
                 "${workspaceFolder}/m2g_racing/src/robot_localization/include",
                 "/opt/ros/noetic/include/xmlrpcpp",
                 "/usr/include/pcl-1.10",
-                "${workspaceFolder}/Fast-Planner/fast_planner/bspline/include"
+                "${workspaceFolder}/Fast-Planner/fast_planner/bspline/include",
+                "${workspaceFolder}/m2g_racing/src/airsim_ros/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

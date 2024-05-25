@@ -1,0 +1,43 @@
+<mxfile host="app.diagrams.net" modified="2024-05-25T07:41:55.838Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36" etag="ycPEd_42qxhLuBvB0Zyu" version="24.4.8" type="device">
+  <diagram id="bWXK3g5gEpQTw67gaVvo" name="Page-1">
+    <mxGraphModel dx="1602" dy="933" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="O2Tcu_tjHCDBofQdCSHS-2" value="Goal Object detection" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="5" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O2Tcu_tjHCDBofQdCSHS-3" value="Perception" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="5" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O2Tcu_tjHCDBofQdCSHS-4" value="SLAM" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="255" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O2Tcu_tjHCDBofQdCSHS-5" value="Path finding&lt;div&gt;Navigation&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="495" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O2Tcu_tjHCDBofQdCSHS-6" value="Action" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="725" y="250" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O2Tcu_tjHCDBofQdCSHS-7" value="Position detection" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="255" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O2Tcu_tjHCDBofQdCSHS-8" value="Loop inception" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="255" y="530" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O2Tcu_tjHCDBofQdCSHS-9" value="Obstcial detection" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="5" y="530" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O2Tcu_tjHCDBofQdCSHS-10" value="Obscal avoidence" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="495" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O2Tcu_tjHCDBofQdCSHS-11" value="Goal path generation" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="495" y="530" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="O2Tcu_tjHCDBofQdCSHS-12" value="Control parameter calculation" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="725" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
