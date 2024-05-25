@@ -101,6 +101,14 @@ find_package(catkin REQUIRED COMPONENTS
 #   cfg/DynReconf2.cfg
 # )
 
+find_package(catkin REQUIRED COMPONENTS
+  airsim_ros
+  OpenCV
+  image_transport
+  cv_bridge
+  tf2_ros
+)
+
 ###################################
 ## catkin specific configuration ##
 ###################################
@@ -110,6 +118,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
+
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES m2g_racing

@@ -1,0 +1,17 @@
+[35m[1mScanning dependencies of target vins_lib[0m
+[  4%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/estimator/parameters.cpp.o[0m
+[  8%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/estimator/estimator.cpp.o[0m
+[ 17%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/factor/pose_local_parameterization.cpp.o[0m
+[ 21%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/estimator/feature_manager.cpp.o[0m
+[ 21%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/factor/projectionTwoFrameOneCamFactor.cpp.o[0m
+[ 30%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/factor/projectionTwoFrameTwoCamFactor.cpp.o[0m
+[ 30%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/factor/projectionOneFrameTwoCamFactor.cpp.o[0m
+[ 34%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/utility/utility.cpp.o[0m
+[ 39%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/factor/marginalization_factor.cpp.o[0m
+[ 43%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/utility/visualization.cpp.o[0m
+[ 47%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/utility/CameraPoseVisualization.cpp.o[0m
+[ 52%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/initial/solve_5pts.cpp.o[0m
+[ 56%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/initial/initial_sfm.cpp.o[0m
+[ 65%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/initial/initial_aligment.cpp.o[0m
+[ 65%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/initial/initial_ex_rotation.cpp.o[0m
+[ 69%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/featureTracker/feature_tracker.cpp.o[0m

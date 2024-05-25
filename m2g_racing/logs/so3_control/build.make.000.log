@@ -1,0 +1,12 @@
+[35m[1mScanning dependencies of target control_example[0m
+[35m[1mScanning dependencies of target SO3Control[0m
+[ 16%] [32mBuilding CXX object CMakeFiles/SO3Control.dir/src/SO3Control.cpp.o[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/control_example.dir/src/control_example.cpp.o[0m
+[ 50%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/so3_control/lib/so3_control/control_example[0m
+[ 50%] Built target control_example
+[ 66%] [32m[1mLinking CXX shared library /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/so3_control/lib/libSO3Control.so[0m
+[ 66%] Built target SO3Control
+[35m[1mScanning dependencies of target so3_control_nodelet[0m
+[ 83%] [32mBuilding CXX object CMakeFiles/so3_control_nodelet.dir/src/so3_control_nodelet.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/so3_control/lib/libso3_control_nodelet.so[0m
+[100%] Built target so3_control_nodelet

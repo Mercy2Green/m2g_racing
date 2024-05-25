@@ -1,0 +1,5 @@
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/libquadrotor_dynamics.so
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/pkgconfig/so3_quadrotor_simulator.pc
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/so3_quadrotor_simulator/quadrotor_simulator_so3
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/so3_quadrotor_simulator/cmake/so3_quadrotor_simulatorConfig-version.cmake
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/so3_quadrotor_simulator/cmake/so3_quadrotor_simulatorConfig.cmake

@@ -1,0 +1,4 @@
+[35m[1mScanning dependencies of target random_forest[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/random_forest.dir/src/random_forest_sensing.cpp.o[0m
+[100%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/map_generator/lib/map_generator/random_forest[0m
+[100%] Built target random_forest

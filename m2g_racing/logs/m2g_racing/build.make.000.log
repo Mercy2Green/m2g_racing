@@ -1,0 +1,24 @@
+[35m[1mScanning dependencies of target search_circle[0m
+[35m[1mScanning dependencies of target tf_airsim[0m
+[35m[1mScanning dependencies of target tune_image_brightness[0m
+[35m[1mScanning dependencies of target circle_2_waypoint[0m
+[35m[1mScanning dependencies of target pose_correct[0m
+[35m[1mScanning dependencies of target scene_2_image_raw[0m
+[  8%] [32mBuilding CXX object CMakeFiles/scene_2_image_raw.dir/src/scene_2_image_raw/scene_2_image_raw.cpp.o[0m
+[ 16%] [32mBuilding CXX object CMakeFiles/pose_correct.dir/src/pose_correct/pose_correct.cpp.o[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/tf_airsim.dir/src/tf_airsim/tf_airsim.cpp.o[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/circle_2_waypoint.dir/src/circle_2_waypoint/circle_2_waypoint.cpp.o[0m
+[ 41%] [32mBuilding CXX object CMakeFiles/tune_image_brightness.dir/src/tune_image_brightness/tune_image_brightness.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/search_circle.dir/src/circle_2_waypoint/search_circle.cpp.o[0m
+[ 58%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/m2g_racing/lib/m2g_racing/tf_airsim[0m
+[ 66%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/m2g_racing/lib/m2g_racing/pose_correct[0m
+[ 66%] Built target tf_airsim
+[ 75%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/m2g_racing/lib/m2g_racing/tune_image_brightness[0m
+[ 75%] Built target pose_correct
+[ 83%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/m2g_racing/lib/m2g_racing/scene_2_image_raw[0m
+[ 91%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/m2g_racing/lib/m2g_racing/circle_2_waypoint[0m
+[ 91%] Built target scene_2_image_raw
+[ 91%] Built target tune_image_brightness
+[ 91%] Built target circle_2_waypoint
+[100%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/m2g_racing/lib/m2g_racing/search_circle[0m
+[100%] Built target search_circle

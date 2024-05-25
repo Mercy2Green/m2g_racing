@@ -1,0 +1,4 @@
+[35m[1mScanning dependencies of target path_searching[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/path_searching.dir/src/dyn_a_star.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/path_searching/lib/libpath_searching.so[0m
+[100%] Built target path_searching

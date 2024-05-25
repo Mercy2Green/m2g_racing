@@ -3,10 +3,9 @@
 build/
 devel/
 files/
-README.md
-src/CMakeLists.txt
 benchmark_haha.zip
 rebound_planner_BB.zip
 test.tar
-ceres/
-glog/
+
+build_isolated/
+devel_isolated/

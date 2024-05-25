@@ -1,0 +1,4 @@
+[35m[1mScanning dependencies of target pcl_render_node[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/pcl_render_node.dir/src/pointcloud_render_node.cpp.o[0m
+[100%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/local_sensing_node/lib/local_sensing_node/pcl_render_node[0m
+[100%] Built target pcl_render_node

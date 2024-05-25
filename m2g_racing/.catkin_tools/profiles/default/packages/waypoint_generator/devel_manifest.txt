@@ -1,0 +1,6 @@
+uav_simulator/Utils/waypoint_generator
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/waypoint_generator/cmake.lock /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/./cmake.lock
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/waypoint_generator/lib/pkgconfig/waypoint_generator.pc /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/pkgconfig/waypoint_generator.pc
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/waypoint_generator/lib/waypoint_generator/waypoint_generator /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/waypoint_generator/waypoint_generator
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/waypoint_generator/share/waypoint_generator/cmake/waypoint_generatorConfig-version.cmake /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/waypoint_generator/cmake/waypoint_generatorConfig-version.cmake
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/waypoint_generator/share/waypoint_generator/cmake/waypoint_generatorConfig.cmake /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/waypoint_generator/cmake/waypoint_generatorConfig.cmake

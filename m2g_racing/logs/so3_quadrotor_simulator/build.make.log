@@ -1,0 +1,8 @@
+[35m[1mScanning dependencies of target quadrotor_dynamics[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/quadrotor_dynamics.dir/src/dynamics/Quadrotor.cpp.o[0m
+[ 50%] [32m[1mLinking CXX shared library /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/so3_quadrotor_simulator/lib/libquadrotor_dynamics.so[0m
+[ 50%] Built target quadrotor_dynamics
+[35m[1mScanning dependencies of target quadrotor_simulator_so3[0m
+[ 75%] [32mBuilding CXX object CMakeFiles/quadrotor_simulator_so3.dir/src/quadrotor_simulator_so3.cpp.o[0m
+[100%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/so3_quadrotor_simulator/lib/so3_quadrotor_simulator/quadrotor_simulator_so3[0m
+[100%] Built target quadrotor_simulator_so3
