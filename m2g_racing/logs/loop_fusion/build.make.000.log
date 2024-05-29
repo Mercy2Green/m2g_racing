@@ -1,0 +1,43 @@
+[35m[1mScanning dependencies of target loop_fusion_node[0m
+[ 21%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/keyframe.cpp.o[0m
+[ 21%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/pose_graph.cpp.o[0m
+[ 21%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/pose_graph_node.cpp.o[0m
+[ 28%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/utility/CameraPoseVisualization.cpp.o[0m
+[ 42%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/ThirdParty/DBoW/FBrief.cpp.o[0m
+[ 42%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/ThirdParty/DBoW/BowVector.cpp.o[0m
+[ 64%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/ThirdParty/DBoW/ScoringObject.cpp.o[0m
+[ 64%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/ThirdParty/DBoW/QueryResults.cpp.o[0m
+[ 71%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/ThirdParty/DBoW/FeatureVector.cpp.o[0m
+[ 78%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/ThirdParty/DUtils/Timestamp.cpp.o[0m
+[ 78%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/ThirdParty/DUtils/Random.cpp.o[0m
+[ 85%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/ThirdParty/DVision/BRIEF.cpp.o[0m
+[ 92%] [32mBuilding CXX object CMakeFiles/loop_fusion_node.dir/src/ThirdParty/VocabularyBinary.cpp.o[0m
+In file included from [01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/ThirdParty/VocabularyBinary.cpp:1[m[K:
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/ThirdParty/VocabularyBinary.hpp:[m[K In constructor ‘[01m[KVINSLoop::Vocabulary::Vocabulary()[m[K’:
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/ThirdParty/VocabularyBinary.hpp:31:11:[m[K [01;35m[Kwarning: [m[K‘[01m[KVINSLoop::Vocabulary::nodes[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+   31 |     Node* [01;35m[Knodes[m[K;
+      |           [01;35m[K^~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/ThirdParty/VocabularyBinary.hpp:29:13:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kint32_t VINSLoop::Vocabulary::nWords[m[K’ [[01;35m[K-Wreorder[m[K]
+   29 |     int32_t [01;35m[KnWords[m[K;
+      |             [01;35m[K^~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/ThirdParty/VocabularyBinary.cpp:5:1:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+    5 | [01;35m[KVINSLoop[m[K::Vocabulary::Vocabulary()
+      | [01;35m[K^~~~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/pose_graph.cpp:[m[K In member function ‘[01m[Kint PoseGraph::detectLoop(KeyFrame*, int)[m[K’:
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/pose_graph.cpp:408:47:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[KDBoW2::EntryId[m[K’ {aka ‘[01m[Kunsigned int[m[K’} and ‘[01m[Kint[m[K’ [[01;35m[K-Wsign-compare[m[K]
+  408 |             if (min_index == -1 || (ret[i].Id < min_index && ret[i].Score > 0.015))
+In file included from [01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/ThirdParty/DBoW/DBoW2.h:63[m[K,
+                 from [01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/keyframe.h:24[m[K,
+                 from [01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/pose_graph.h:28[m[K,
+                 from [01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/pose_graph.cpp:12[m[K:
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/ThirdParty/DBoW/TemplatedVocabulary.h: In instantiation of ‘[01m[Kvoid DBoW2::TemplatedVocabulary<TDescriptor, F>::loadBin(const string&) [with TDescriptor = boost::dynamic_bitset<>; F = DBoW2::FBrief; std::string = std::__cxx11::basic_string<char>][m[K’:
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/ThirdParty/DBoW/TemplatedVocabulary.h:439:5:[m[K   required from ‘[01m[KDBoW2::TemplatedVocabulary<TDescriptor, F>::TemplatedVocabulary(const string&) [with TDescriptor = boost::dynamic_bitset<>; F = DBoW2::FBrief; std::string = std::__cxx11::basic_string<char>][m[K’
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/pose_graph.cpp:64:39:[m[K   required from here
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/ThirdParty/DBoW/TemplatedVocabulary.h:1529:29:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kunsigned int[m[K’ and ‘[01m[Kint32_t[m[K’ {aka ‘[01m[Kint[m[K’} [[01;35m[K-Wsign-compare[m[K]
+ 1529 |   for(unsigned int i = 0; [01;35m[Ki < voc.nNodes[m[K; ++i)
+      |                           [01;35m[K~~^~~~~~~~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/loop_fusion/src/ThirdParty/DBoW/TemplatedVocabulary.h:1553:29:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kunsigned int[m[K’ and ‘[01m[Kint32_t[m[K’ {aka ‘[01m[Kint[m[K’} [[01;35m[K-Wsign-compare[m[K]
+ 1553 |   for(unsigned int i = 0; [01;35m[Ki < voc.nWords[m[K; ++i)
+      |                           [01;35m[K~~^~~~~~~~~~~~[m[K
+[100%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/loop_fusion/lib/loop_fusion/loop_fusion_node[0m
+[100%] Built target loop_fusion_node

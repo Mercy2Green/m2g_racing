@@ -1,0 +1,7 @@
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/libvins_lib.so
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/pkgconfig/vins.pc
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/vins/kitti_gps_test
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/vins/kitti_odom_test
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/vins/vins_node
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/vins/cmake/vinsConfig-version.cmake
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/vins/cmake/vinsConfig.cmake

@@ -1,0 +1,6 @@
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/libSO3Control.so
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/libso3_control_nodelet.so
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/pkgconfig/so3_control.pc
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/so3_control/control_example
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/so3_control/cmake/so3_controlConfig-version.cmake
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/so3_control/cmake/so3_controlConfig.cmake

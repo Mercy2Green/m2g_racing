@@ -1,0 +1,12 @@
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/include/image_publisher/ImagePublisherConfig.h
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/libimage_publisher.so
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/image_publisher/image_publisher
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/pkgconfig/image_publisher.pc
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/python3/dist-packages/image_publisher/__init__.py
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/python3/dist-packages/image_publisher/cfg/ImagePublisherConfig.py
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/python3/dist-packages/image_publisher/cfg/__init__.py
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/image_publisher/cmake/image_publisherConfig-version.cmake
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/image_publisher/cmake/image_publisherConfig.cmake
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/image_publisher/docs/ImagePublisherConfig-usage.dox
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/image_publisher/docs/ImagePublisherConfig.dox
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/image_publisher/docs/ImagePublisherConfig.wikidoc

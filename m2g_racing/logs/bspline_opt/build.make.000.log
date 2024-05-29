@@ -1,0 +1,13 @@
+[35m[1mScanning dependencies of target bspline_opt[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/bspline_opt.dir/src/uniform_bspline.cpp.o[0m
+[ 75%] [32mBuilding CXX object CMakeFiles/bspline_opt.dir/src/bspline_optimizer.cpp.o[0m
+[ 75%] [32mBuilding CXX object CMakeFiles/bspline_opt.dir/src/gradient_descent_optimizer.cpp.o[0m
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/planner/bspline_opt/src/bspline_optimizer.cpp:[m[K In member function ‘[01m[Kstd::vector<std::vector<Eigen::Matrix<double, 3, 1> > > ego_planner::BsplineOptimizer::initControlPoints(Eigen::MatrixXd&, bool)[m[K’:
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/planner/bspline_opt/src/bspline_optimizer.cpp:50:16:[m[K [01;35m[Kwarning: [m[K‘[01m[Kout_id[m[K’ may be used uninitialized in this function [[01;35m[K-Wmaybe-uninitialized[m[K]
+   50 |     int in_id, [01;35m[Kout_id[m[K;
+      |                [01;35m[K^~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/planner/bspline_opt/src/bspline_optimizer.cpp:50:9:[m[K [01;35m[Kwarning: [m[K‘[01m[Kin_id[m[K’ may be used uninitialized in this function [[01;35m[K-Wmaybe-uninitialized[m[K]
+   50 |     int [01;35m[Kin_id[m[K, out_id;
+      |         [01;35m[K^~~~~[m[K
+[100%] [32m[1mLinking CXX shared library /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/bspline_opt/lib/libbspline_opt.so[0m
+[100%] Built target bspline_opt

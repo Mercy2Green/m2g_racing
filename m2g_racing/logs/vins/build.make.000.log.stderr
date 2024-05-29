@@ -1,0 +1,16 @@
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/vins_estimator/src/KITTIGPSTest.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/vins_estimator/src/KITTIGPSTest.cpp:144:10:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint fscanf(FILE*, const char*, ...)[m[K’, declared with attribute warn_unused_result [[01;35m[K-Wunused-result[m[K]
+  144 |    [01;35m[Kfscanf(GPSFile, "%lf %lf %lf %lf %lf %lf ", &lat, &lon, &alt, &roll, &pitch, &yaw)[m[K;
+      |    [01;35m[K~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/vins_estimator/src/KITTIGPSTest.cpp:146:10:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint fscanf(FILE*, const char*, ...)[m[K’, declared with attribute warn_unused_result [[01;35m[K-Wunused-result[m[K]
+  146 |    [01;35m[Kfscanf(GPSFile, "%lf %lf %lf %lf %lf ", &vn, &ve, &vf, &vl, &vu)[m[K;
+      |    [01;35m[K~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/vins_estimator/src/KITTIGPSTest.cpp:148:10:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint fscanf(FILE*, const char*, ...)[m[K’, declared with attribute warn_unused_result [[01;35m[K-Wunused-result[m[K]
+  148 |    [01;35m[Kfscanf(GPSFile, "%lf %lf %lf %lf %lf %lf ", &ax, &ay, &az, &af, &al, &au)[m[K;
+      |    [01;35m[K~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/vins_estimator/src/KITTIGPSTest.cpp:150:10:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint fscanf(FILE*, const char*, ...)[m[K’, declared with attribute warn_unused_result [[01;35m[K-Wunused-result[m[K]
+  150 |    [01;35m[Kfscanf(GPSFile, "%lf %lf %lf %lf %lf %lf ", &wx, &wy, &wz, &wf, &wl, &wu)[m[K;
+      |    [01;35m[K~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/vins_estimator/src/KITTIGPSTest.cpp:152:10:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint fscanf(FILE*, const char*, ...)[m[K’, declared with attribute warn_unused_result [[01;35m[K-Wunused-result[m[K]
+  152 |    [01;35m[Kfscanf(GPSFile, "%lf %lf %lf %lf %lf %lf ", &pos_accuracy, &vel_accuracy, &navstat, &numsats, &velmode, &orimode)[m[K;
+      |    [01;35m[K~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K

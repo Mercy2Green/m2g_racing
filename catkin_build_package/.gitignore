@@ -1,0 +1,7 @@
+.vscode/settings.json
+.catkin_workspace
+
+
+/build
+/devel 
+/logs

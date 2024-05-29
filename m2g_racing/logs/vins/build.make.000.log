@@ -1,0 +1,47 @@
+[35m[1mScanning dependencies of target vins_lib[0m
+[  4%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/estimator/parameters.cpp.o[0m
+[  8%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/estimator/feature_manager.cpp.o[0m
+[ 13%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/estimator/estimator.cpp.o[0m
+[ 17%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/factor/pose_local_parameterization.cpp.o[0m
+[ 21%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/factor/projectionTwoFrameOneCamFactor.cpp.o[0m
+[ 26%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/factor/projectionTwoFrameTwoCamFactor.cpp.o[0m
+[ 30%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/utility/utility.cpp.o[0m
+[ 39%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/factor/marginalization_factor.cpp.o[0m
+[ 39%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/factor/projectionOneFrameTwoCamFactor.cpp.o[0m
+[ 47%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/utility/visualization.cpp.o[0m
+[ 52%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/utility/CameraPoseVisualization.cpp.o[0m
+[ 52%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/initial/initial_sfm.cpp.o[0m
+[ 56%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/initial/solve_5pts.cpp.o[0m
+[ 60%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/initial/initial_ex_rotation.cpp.o[0m
+[ 65%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/initial/initial_aligment.cpp.o[0m
+[ 69%] [32mBuilding CXX object CMakeFiles/vins_lib.dir/src/featureTracker/feature_tracker.cpp.o[0m
+[ 73%] [32m[1mLinking CXX shared library /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/vins/lib/libvins_lib.so[0m
+[ 73%] Built target vins_lib
+[35m[1mScanning dependencies of target kitti_gps_test[0m
+[35m[1mScanning dependencies of target kitti_odom_test[0m
+[35m[1mScanning dependencies of target vins_node[0m
+[ 78%] [32mBuilding CXX object CMakeFiles/kitti_odom_test.dir/src/KITTIOdomTest.cpp.o[0m
+[ 86%] [32mBuilding CXX object CMakeFiles/kitti_gps_test.dir/src/KITTIGPSTest.cpp.o[0m
+[ 86%] [32mBuilding CXX object CMakeFiles/vins_node.dir/src/rosNodeTest.cpp.o[0m
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/vins_estimator/src/KITTIGPSTest.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/vins_estimator/src/KITTIGPSTest.cpp:144:10:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint fscanf(FILE*, const char*, ...)[m[K’, declared with attribute warn_unused_result [[01;35m[K-Wunused-result[m[K]
+  144 |    [01;35m[Kfscanf(GPSFile, "%lf %lf %lf %lf %lf %lf ", &lat, &lon, &alt, &roll, &pitch, &yaw)[m[K;
+      |    [01;35m[K~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/vins_estimator/src/KITTIGPSTest.cpp:146:10:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint fscanf(FILE*, const char*, ...)[m[K’, declared with attribute warn_unused_result [[01;35m[K-Wunused-result[m[K]
+  146 |    [01;35m[Kfscanf(GPSFile, "%lf %lf %lf %lf %lf ", &vn, &ve, &vf, &vl, &vu)[m[K;
+      |    [01;35m[K~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/vins_estimator/src/KITTIGPSTest.cpp:148:10:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint fscanf(FILE*, const char*, ...)[m[K’, declared with attribute warn_unused_result [[01;35m[K-Wunused-result[m[K]
+  148 |    [01;35m[Kfscanf(GPSFile, "%lf %lf %lf %lf %lf %lf ", &ax, &ay, &az, &af, &al, &au)[m[K;
+      |    [01;35m[K~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/vins_estimator/src/KITTIGPSTest.cpp:150:10:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint fscanf(FILE*, const char*, ...)[m[K’, declared with attribute warn_unused_result [[01;35m[K-Wunused-result[m[K]
+  150 |    [01;35m[Kfscanf(GPSFile, "%lf %lf %lf %lf %lf %lf ", &wx, &wy, &wz, &wf, &wl, &wu)[m[K;
+      |    [01;35m[K~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/VINS-Fusion/vins_estimator/src/KITTIGPSTest.cpp:152:10:[m[K [01;35m[Kwarning: [m[Kignoring return value of ‘[01m[Kint fscanf(FILE*, const char*, ...)[m[K’, declared with attribute warn_unused_result [[01;35m[K-Wunused-result[m[K]
+  152 |    [01;35m[Kfscanf(GPSFile, "%lf %lf %lf %lf %lf %lf ", &pos_accuracy, &vel_accuracy, &navstat, &numsats, &velmode, &orimode)[m[K;
+      |    [01;35m[K~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[ 91%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/vins/lib/vins/kitti_odom_test[0m
+[ 95%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/vins/lib/vins/kitti_gps_test[0m
+[ 95%] Built target kitti_odom_test
+[ 95%] Built target kitti_gps_test
+[100%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/vins/lib/vins/vins_node[0m
+[100%] Built target vins_node

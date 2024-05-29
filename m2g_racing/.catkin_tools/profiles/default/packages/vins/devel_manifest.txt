@@ -1,0 +1,9 @@
+VINS-Fusion/vins_estimator
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/vins/cmake.lock /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/./cmake.lock
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/vins/lib/libvins_lib.so /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/libvins_lib.so
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/vins/lib/pkgconfig/vins.pc /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/pkgconfig/vins.pc
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/vins/lib/vins/kitti_gps_test /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/vins/kitti_gps_test
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/vins/lib/vins/kitti_odom_test /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/vins/kitti_odom_test
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/vins/lib/vins/vins_node /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/vins/vins_node
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/vins/share/vins/cmake/vinsConfig-version.cmake /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/vins/cmake/vinsConfig-version.cmake
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/vins/share/vins/cmake/vinsConfig.cmake /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/vins/cmake/vinsConfig.cmake

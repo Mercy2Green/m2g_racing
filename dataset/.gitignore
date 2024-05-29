@@ -1,0 +1,8 @@
+.vscode/settings.json
+.catkin_workspace
+
+
+/circle_yolov5
+/record
+*.zip
+*.mp4

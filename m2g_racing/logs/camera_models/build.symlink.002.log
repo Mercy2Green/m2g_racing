@@ -1,0 +1,5 @@
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/libcamera_models.so
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/camera_models/Calibrations
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/pkgconfig/camera_models.pc
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/camera_models/cmake/camera_modelsConfig-version.cmake
+Symlinking /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/camera_models/cmake/camera_modelsConfig.cmake

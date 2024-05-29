@@ -1,0 +1,26 @@
+[  0%] Built target nav_msgs_generate_messages_cpp
+[  0%] Built target geometry_msgs_generate_messages_nodejs
+[  0%] Built target nav_msgs_generate_messages_py
+[  0%] Built target geometry_msgs_generate_messages_cpp
+[  0%] Built target geometry_msgs_generate_messages_py
+[  0%] Built target geometry_msgs_generate_messages_lisp
+[  0%] Built target nav_msgs_generate_messages_eus
+[  0%] Built target nav_msgs_generate_messages_nodejs
+[  0%] Built target geometry_msgs_generate_messages_eus
+[  0%] Built target nav_msgs_generate_messages_lisp
+[  4%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/multi_map_server/lib/multi_map_server/multi_map_visualization[0m
+[  4%] Built target _multi_map_server_generate_messages_check_deps_MultiOccupancyGrid
+[  4%] Built target _multi_map_server_generate_messages_check_deps_MultiSparseMap3D
+[  4%] Built target _multi_map_server_generate_messages_check_deps_VerticalOccupancyGridList
+[  4%] Built target _multi_map_server_generate_messages_check_deps_SparseMap3D
+/usr/bin/ld: cannot find -lpose_utils
+collect2: error: ld returned 1 exit status
+[ 20%] Built target multi_map_server_generate_messages_cpp
+make[2]: *** [CMakeFiles/multi_map_visualization.dir/build.make:111: /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/multi_map_server/lib/multi_map_server/multi_map_visualization] Error 1
+make[1]: *** [CMakeFiles/Makefile2:334: CMakeFiles/multi_map_visualization.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[ 58%] Built target multi_map_server_generate_messages_eus
+[ 66%] Built target multi_map_server_generate_messages_nodejs
+[ 79%] Built target multi_map_server_generate_messages_py
+[ 95%] Built target multi_map_server_generate_messages_lisp
+make: *** [Makefile:141: all] Error 2

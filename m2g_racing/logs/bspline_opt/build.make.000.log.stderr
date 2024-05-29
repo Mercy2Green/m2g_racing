@@ -1,0 +1,7 @@
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/planner/bspline_opt/src/bspline_optimizer.cpp:[m[K In member function ‘[01m[Kstd::vector<std::vector<Eigen::Matrix<double, 3, 1> > > ego_planner::BsplineOptimizer::initControlPoints(Eigen::MatrixXd&, bool)[m[K’:
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/planner/bspline_opt/src/bspline_optimizer.cpp:50:16:[m[K [01;35m[Kwarning: [m[K‘[01m[Kout_id[m[K’ may be used uninitialized in this function [[01;35m[K-Wmaybe-uninitialized[m[K]
+   50 |     int in_id, [01;35m[Kout_id[m[K;
+      |                [01;35m[K^~~~~~[m[K
+[01m[K/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/src/planner/bspline_opt/src/bspline_optimizer.cpp:50:9:[m[K [01;35m[Kwarning: [m[K‘[01m[Kin_id[m[K’ may be used uninitialized in this function [[01;35m[K-Wmaybe-uninitialized[m[K]
+   50 |     int [01;35m[Kin_id[m[K, out_id;
+      |         [01;35m[K^~~~~[m[K

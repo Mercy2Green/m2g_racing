@@ -1,0 +1,6 @@
+VINS-Fusion/loop_fusion
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/loop_fusion/cmake.lock /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/./cmake.lock
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/loop_fusion/lib/loop_fusion/loop_fusion_node /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/loop_fusion/loop_fusion_node
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/loop_fusion/lib/pkgconfig/loop_fusion.pc /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/lib/pkgconfig/loop_fusion.pc
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/loop_fusion/share/loop_fusion/cmake/loop_fusionConfig-version.cmake /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/loop_fusion/cmake/loop_fusionConfig-version.cmake
+/media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/loop_fusion/share/loop_fusion/cmake/loop_fusionConfig.cmake /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/share/loop_fusion/cmake/loop_fusionConfig.cmake

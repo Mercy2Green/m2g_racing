@@ -1,0 +1,11 @@
+[35m[1mScanning dependencies of target libGeographiccc[0m
+[ 14%] [32mBuilding CXX object ThirdParty/GeographicLib/CMakeFiles/libGeographiccc.dir/src/LocalCartesian.cpp.o[0m
+[ 28%] [32mBuilding CXX object ThirdParty/GeographicLib/CMakeFiles/libGeographiccc.dir/src/Geocentric.cpp.o[0m
+[ 42%] [32mBuilding CXX object ThirdParty/GeographicLib/CMakeFiles/libGeographiccc.dir/src/Math.cpp.o[0m
+[ 57%] [32m[1mLinking CXX shared library liblibGeographiccc.so[0m
+[ 57%] Built target libGeographiccc
+[35m[1mScanning dependencies of target global_fusion_node[0m
+[ 71%] [32mBuilding CXX object CMakeFiles/global_fusion_node.dir/src/globalOptNode.cpp.o[0m
+[ 85%] [32mBuilding CXX object CMakeFiles/global_fusion_node.dir/src/globalOpt.cpp.o[0m
+[100%] [32m[1mLinking CXX executable /media/m2g/workdisk/workspace/GitHub/m2g_racing/m2g_racing/devel/.private/global_fusion/lib/global_fusion/global_fusion_node[0m
+[100%] Built target global_fusion_node

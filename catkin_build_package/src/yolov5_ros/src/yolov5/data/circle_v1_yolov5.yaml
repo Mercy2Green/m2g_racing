@@ -1,0 +1,13 @@
+train: /media/m2g/workdisk/workspace/GitHub/m2g_racing/dataset/circle_v1_yolov5/test/images
+val: /media/m2g/workdisk/workspace/GitHub/m2g_racing/dataset/circle_v1_yolov5/test/images
+test: /media/m2g/workdisk/workspace/GitHub/m2g_racing/dataset/circle_v1_yolov5/test/images
+
+nc: 2
+names: ['circle_red', 'circle_yellow']
+
+roboflow:
+  workspace: mercy2green
+  project: circle-ch9fd
+  version: 1
+  license: MIT
+  url: https://universe.roboflow.com/mercy2green/circle-ch9fd/dataset/1
